@@ -1,2 +1,2 @@
 # ethan7zhanghx.github.io
-Self
+Self Webpage
