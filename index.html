@@ -54,56 +54,94 @@
   </header>
 
   <main>
-    <!-- Hero / 首页 -->
-    <section id="home" class="container mx-auto px-6 pt-32 pb-16 md:pt-48 md:pb-24">
-        <!-- 顶部：标题+照片 并列 -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-          <!-- 左侧：姓名与求职意向 -->
-          <div class="flex-1">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">张昊鑫</h1>
-            <h2 class="mt-8 text-2xl md:text-3xl font-medium text-blue-600 mt-2">求职意向：AI产品经理</h2>
-          </div>
-          <!-- 右侧：圆形头像，缩小尺寸 -->
-          <div class="w-60 h-60 md:w-60 md:h-60 rounded-full overflow-hidden border-4 border-white shadow-lg flex-shrink-0 mt-4 md:mt-0 md:ml-6">
-            <img 
-              src="证件照.jpg" 
-              alt="证件照.jpg" 
-              class="w-full h-full object-cover object-top"
-            />
+  <!-- Hero / 首页 -->
+<section id="home" class="container mx-auto px-6 pt-32 pb-16 md:pt-48 md:pb-24 relative overflow-hidden">
+    <!-- 背景装饰元素 -->
+    <div class="absolute top-20 right-10 w-64 h-64 bg-blue-100 rounded-full opacity-30 blur-3xl"></div>
+    <div class="absolute bottom-20 left-10 w-48 h-48 bg-purple-100 rounded-full opacity-20 blur-2xl"></div>
+    <div class="absolute top-40 left-1/4 w-32 h-32 bg-green-100 rounded-full opacity-25 blur-xl"></div>
+    
+    
+    <div class="flex flex-col md:flex-row md:items-center mb-8 relative z-10">
+        <!-- 左侧：姓名与求职意向 -->
+        <div class="flex-1 md:ml-20 md:pr-8">
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-900">张昊鑫</h1>
+          <h2 class="mt-8 text-2xl md:text-3xl font-medium text-blue-600 mt-2">求职意向：AI产品经理</h2>
+        </div>
+        
+        <!-- 右侧：增强的圆形头像 -->
+        <div class="flex justify-center md:justify-center md:flex-1 mt-8 md:mt-0 px-8">
+          <div class="relative flex items-center justify-center min-w-80 min-h-80">
+            <!-- 装饰圆环 - 固定尺寸 -->
+            <div class="absolute w-72 h-72 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-600 rounded-full opacity-20 blur-lg"></div>
+            <div class="absolute w-64 h-64 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-30"></div>
+            
+            <!-- 主照片容器 - 固定尺寸 -->
+            <div class="relative w-60 h-60 rounded-full overflow-hidden border-4 border-white shadow-2xl">
+              <img 
+                src="证件照.jpg" 
+                alt="证件照.jpg" 
+                class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-300"
+              />
+            </div>
           </div>
         </div>
+      </div>
+  
+    <!-- 个人总结，增加卡片效果 -->
+    <div class="mt-16 bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-200/50 relative z-10">
+      <div class="text-lg text-gray-600 mx-auto md:mx-0 space-y-3">
+        <p>硕士：对外经济贸易大学 量化投资<strong class="text-blue-600">「GPA 4.0/4.0」</strong> 推免排名 <strong class="text-blue-600">1%</strong> </p>
+        <p>本科：对外经济贸易大学 金融工程「GPA 3.83/4.0」 综合排名 10% 综合一等奖学金</p>
+        <p class="font-semibold text-gray-800 pt-4 mb-4 flex items-center">
+          <i data-lucide="star" class="w-5 h-5 text-yellow-500 mr-2"></i>
+          核心优势：
+        </p>
+        <ul class="space-y-4 text-gray-600 text-left">
+          <li class="flex items-start">
+            <i data-lucide="target" class="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0"></i>
+            <span><strong>用户洞察</strong> —— 识别真实需求与表面需求的差异，重新定义目标用户</span>
+          </li>
+          <li class="flex items-start">
+            <i data-lucide="brain-circuit" class="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0"></i>
+            <span><strong>技术理解</strong> —— 将复杂AI算法转化为商业洞察，识别市场机会</span>
+          </li>
+          <li class="flex items-start">
+            <i data-lucide="trending-up" class="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0"></i>
+            <span><strong>数据驱动</strong> —— 数据产品开发 + 专业背景 + 建模经历，培养数据思维</span>
+          </li>
+          <li class="flex items-start">
+            <i data-lucide="settings" class="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0"></i>
+            <span><strong>产品技术化</strong> —— 将产品需求转化为技术实现方案</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  
+    <!-- 操作按钮 -->
+    <div class=" mt-16 flex flex-row max-sm:flex-col justify-center  items-center  space-x-4   max-sm:space-x-0   max-sm:space-y-4  relative z-10">
+        <a
+          href="portfolio.html"
+          class="inline-block px-8 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition transform hover:scale-105 shadow-lg hover:shadow-xl"
+        >
+          查看作品集
+        </a>
+        <a
+          href="contact.html"
+          class="inline-block px-8 py-3 text-lg font-semibold text-blue-600 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 transition transform hover:scale-105 shadow-lg hover:shadow-xl"
+        >
+          联系我
+        </a>
+      </div>
       
-        <!-- 个人总结三点，横向展开或自动换行 -->
-        <div class="mt-16 text-lg text-gray-600 mx-auto md:mx-0 space-y-3">
-            <p>硕士：对外经济贸易大学 量化投资<strong>「GPA 4.0/4.0」</strong></p>
-            <p>本科：对外经济贸易大学 金融工程「GPA 3.83/4.0」</p>
-            <p class="font-semibold text-gray-800 pt-2">核心优势：</p>
-            <ul class="list-disc list-inside space-y-2 text-gray-600 text-left sm:pl-4">
-              <li>用户洞察 —— 识别真实需求与表面需求的差异，重新定义目标用户</li>
-              <li>技术理解 —— 将复杂AI算法转化为商业洞察，识别市场机会</li>
-              <li>数据驱动 —— 数据产品开发 + 专业背景 + 建模经历，培养数据思维</li>
-              <li>产品技术化 —— 将产品需求转化为技术实现方案</li>
-            </ul>
-          </div>
-      
-        <!-- 可选：操作按钮（查看作品集 / 联系我）放在总结下方 -->
-        <div class="mt-16 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <a href="portfolio.html" class="inline-block px-8 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition transform hover:scale-105 shadow-lg">
-            查看作品集
-          </a>
-          <a href="contact.html" class="inline-block px-8 py-3 text-lg font-semibold text-blue-600 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 transition transform hover:scale-105 shadow-lg">
-            联系我
-          </a>
-        </div>
-      </section>
+  </section>
       
 
     <!-- 近期项目预览 -->
     <section id="portfolio" class="py-16 md:py-24 bg-white">
       <div class="container mx-auto px-6">
         <div class="text-center mb-12">
-          <h2 class="section-title">近期项目预览</h2>
-          <p class="section-subtitle">我的一些项目经验</p>
+          <h2 class="section-title text-4xl md:text-4xl">近期项目预览</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div class="project-card">
@@ -136,56 +174,13 @@
       </div>
     </section>
 
-    <!-- 技能树 -->
-    <section id="home-skills" class="py-16 md:py-24 bg-gray-50">
-      <div class="container mx-auto px-6">
-        <div class="text-center mb-12">
-          <h2 class="section-title">技能树</h2>
-          <p class="section-subtitle">我的专业能力</p>
-        </div>
-        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-white p-6 rounded-lg border border-gray-200/80 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
-            <h3 class="text-xl font-bold mb-4 text-gray-900 flex items-center"><i data-lucide="code" class="w-6 h-6 mr-3 text-blue-600"></i>编程语言</h3>
-            <div class="flex flex-wrap gap-3">
-              <span class="skill-tag">Python</span>
-              <span class="skill-tag">SQL</span>
-              <span class="skill-tag">Matlab</span>
-              <span class="skill-tag">C++</span>
-              <span class="skill-tag">R</span>
-            </div>
-          </div>
-          <div class="bg-white p-6 rounded-lg border border-gray-200/80 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
-            <h3 class="text-xl font-bold mb-4 text-gray-900 flex items-center"><i data-lucide="brain-circuit" class="w-6 h-6 mr-3 text-blue-600"></i>AI工具</h3>
-            <div class="flex flex-wrap gap-3">
-              <span class="skill-tag">Coze</span>
-              <span class="skill-tag">Dify</span>
-            </div>
-          </div>
-          <div class="bg-white p-6 rounded-lg border border-gray-200/80 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
-            <h3 class="text-xl font-bold mb-4 text-gray-900 flex items-center"><i data-lucide="database" class="w-6 h-6 mr-3 text-blue-600"></i>数据工具</h3>
-            <div class="flex flex-wrap gap-3">
-              <span class="skill-tag">Wind</span>
-              <span class="skill-tag">Bloomberg</span>
-              <span class="skill-tag">MySQL</span>
-            </div>
-          </div>
-          <div class="bg-white p-6 rounded-lg border border-gray-200/80 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
-            <h3 class="text-xl font-bold mb-4 text-gray-900 flex items-center"><i data-lucide="file-text" class="w-6 h-6 mr-3 text-blue-600"></i>办公工具</h3>
-            <div class="flex flex-wrap gap-3">
-              <span class="skill-tag">MS Office</span>
-              <span class="skill-tag">Markdown</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+
 
     <!-- 联系方式 -->
     <section id="home-contact" class="py-16 md:py-24 bg-white">
       <div class="container mx-auto px-6">
         <div class="text-center mb-12">
-          <h2 class="section-title">联系方式</h2>
-          <p class="section-subtitle">期待与您交流</p>
+          <h2 class="section-title  text-4xl md:text-4xl">联系方式</h2>
         </div>
         <div class="max-w-lg mx-auto">
           <div class="space-y-6">

@@ -35,7 +35,7 @@ html.lang-cn body {
 }
 
 .section-subtitle {
-    @apply mt-2 text-lg text-gray-500;
+    @apply mt-2 text-4xl text-gray-500;
 }
 
 .project-card {
@@ -100,3 +100,63 @@ html.lang-cn body {
 .prose code {
     @apply text-sm font-semibold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded-md border border-blue-200/80;
 }
+
+/* 核心技能标签 */
+.skill-tag-core {
+    @apply inline-block px-6 py-3 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg;
+  }
+  
+  .skill-tag-core.expert {
+    @apply bg-blue-600 text-white shadow-md hover:bg-blue-700;
+  }
+  
+  /* 技能卡片 */
+  .skill-card {
+    @apply bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100;
+  }
+  
+  .skill-card-header {
+    @apply flex items-center space-x-3 mb-6 pb-3 border-b border-gray-100;
+  }
+  
+  .skill-list {
+    @apply space-y-3;
+  }
+  
+  .skill-item {
+    @apply flex items-center justify-between px-4 py-2 rounded-lg transition-all duration-200;
+    position: relative;
+  }
+  
+  .skill-item::before {
+    content: '';
+    @apply absolute left-0 top-1/2 w-2 h-2 rounded-full transform -translate-y-1/2;
+  }
+  
+  .skill-item.expert {
+    @apply bg-blue-50 text-blue-800 hover:bg-blue-100;
+  }
+  
+  .skill-item.expert::before {
+    @apply bg-blue-500;
+  }
+  
+  .skill-item.proficient {
+    @apply bg-green-50 text-green-800 hover:bg-green-100;
+  }
+  
+  .skill-item.proficient::before {
+    @apply bg-green-500;
+  }
+  
+  .skill-item.familiar {
+    @apply bg-orange-50 text-orange-800 hover:bg-orange-100;
+  }
+  
+  .skill-item.familiar::before {
+    @apply bg-orange-500;
+  }
+  
+  .skill-item {
+    padding-left: 1.5rem;
+  }
