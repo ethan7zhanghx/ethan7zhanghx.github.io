@@ -55,34 +55,47 @@
 
   <main>
     <!-- Hero / 首页 -->
-    <section id="home" class="container mx-auto px-6 pt-32 pb-16 md:pt-48 md:pb-24 flex flex-col md:flex-row items-center text-center md:text-left">
-      <div class="w-full md:w-3/5">
-        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">张昊鑫</h1>
-        <h2 class="text-2xl md:text-3xl font-medium text-blue-600 mt-2">求职意向：AI产品经理</h2>
-        <div class="mt-8 text-lg text-gray-600 max-w-xl mx-auto md:mx-0 space-y-3">
-          <p>对外经济贸易大学量化投资硕士「GPA 4.0/4.0」</p>
-          <p class="font-semibold text-gray-800 pt-2">核心优势：</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-600 text-left sm:pl-4">
-            <li>AI产品实战 (百度AI技术生态部)：用户洞察驱动产品策略调整。</li>
-            <li>AI市场研究 (国泰君安研究所)：深度分析AI产品盈利模式与竞争格局。</li>
-            <li>数据分析能力：数据产品开发 + 专业背景 + 建模经历，构建数据驱动的产品思维。</li>
-          </ul>
+    <section id="home" class="container mx-auto px-6 pt-32 pb-16 md:pt-48 md:pb-24">
+        <!-- 顶部：标题+照片 并列 -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+          <!-- 左侧：姓名与求职意向 -->
+          <div class="flex-1">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">张昊鑫</h1>
+            <h2 class="text-2xl md:text-3xl font-medium text-blue-600 mt-2">求职意向：AI产品经理</h2>
+          </div>
+          <!-- 右侧：圆形头像，缩小尺寸 -->
+          <div class="w-60 h-60 md:w-60 md:h-60 rounded-full overflow-hidden border-4 border-white shadow-lg flex-shrink-0 mt-4 md:mt-0 md:ml-6">
+            <img 
+              src="证件照.jpg" 
+              alt="证件照.jpg" 
+              class="w-full h-full object-cover object-top"
+            />
+          </div>
         </div>
-        <div class="mt-10 flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-          <a href="portfolio.html" class="inline-block px-8 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105 shadow-lg">
+      
+        <!-- 个人总结三点，横向展开或自动换行 -->
+        <div class="mt-8 text-lg text-gray-600 mx-auto md:mx-0 space-y-3">
+            <p>硕士：对外经济贸易大学 量化投资<strong>「GPA 4.0/4.0」</strong></p>
+            <p>本科：对外经济贸易大学 金融工程<strong>「GPA 3.83/4.0」</strong></p>
+            <p class="font-semibold text-gray-800 pt-2">核心优势：</p>
+            <ul class="list-disc list-inside space-y-2 text-gray-600 text-left sm:pl-4">
+              <li>用户洞察 —— 识别真实需求与表面需求的差异，重新定义目标用户</li>
+              <li>技术理解 —— 将复杂AI算法转化为商业洞察，识别市场机会</li>
+              <li>数据驱动 —— 数据产品开发 + 专业背景 + 建模经历，培养数据思维</li>
+            </ul>
+          </div>
+      
+        <!-- 可选：操作按钮（查看作品集 / 联系我）放在总结下方 -->
+        <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+          <a href="portfolio.html" class="inline-block px-8 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition transform hover:scale-105 shadow-lg">
             查看作品集
           </a>
-          <a href="contact.html" class="inline-block px-8 py-3 text-lg font-semibold text-blue-600 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-300 transform hover:scale-105 shadow-lg">
+          <a href="contact.html" class="inline-block px-8 py-3 text-lg font-semibold text-blue-600 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 transition transform hover:scale-105 shadow-lg">
             联系我
           </a>
         </div>
-      </div>
-      <div class="w-full md:w-2/5 mt-12 md:mt-0 flex justify-center items-center">
-        <div class="w-64 h-64 md:w-80 md:h-80 bg-gray-200 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
-          <span class="text-gray-500 font-medium">[张昊鑫证件照占位符]</span>
-        </div>
-      </div>
-    </section>
+      </section>
+      
 
     <!-- 近期项目预览 -->
     <section id="portfolio" class="py-16 md:py-24 bg-white">

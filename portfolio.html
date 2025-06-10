@@ -14,33 +14,45 @@
 
     <header id="header" class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm transition-all duration-300">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="font-bold text-xl text-gray-900 tracking-wide" data-lang-cn="张昊鑫" data-lang-en="Haoxin Zhang">张昊鑫</a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="info.html" class="nav-link" data-lang-cn="个人信息" data-lang-en="About Me">个人信息</a>
-                <a href="portfolio.html" class="nav-link" data-lang-cn="作品集" data-lang-en="Portfolio">作品集</a>
-                <a href="contact.html" class="nav-link" data-lang-cn="联系方式" data-lang-en="Contact">联系方式</a>
-            </div>
-            <div class="flex items-center space-x-4">
-                <a href="#" onclick="alert(document.documentElement.lang.startsWith('en') ? 'CV to be uploaded' : '简历待上传'); return false;" class="hidden md:inline-block px-4 py-2 text-sm font-semibold text-blue-600 bg-white rounded-lg border border-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 transition-all duration-300" data-lang-cn="下载简历" data-lang-en="Download CV">下载简历</a>
-                <div class="flex items-center space-x-2">
-                    <span class="text-sm font-medium text-gray-600">中文</span>
-                    <button id="lang-switcher" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-300 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" type="button" role="switch" aria-checked="false">
-                        <span class="pointer-events-none inline-block h-5 w-5 translate-x-0 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
-                    </button>
-                    <span class="text-sm font-medium text-gray-600">EN</span>
-                </div>
-                 <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100">
-                    <i data-lucide="menu" class="h-6 w-6"></i>
-                </button>
-            </div>
+          <!-- 左侧 Logo -->
+          <a href="index.html" class="font-bold text-xl text-gray-900 tracking-wide">张昊鑫</a>
+    
+          <!-- 中间菜单 -->
+          <div class="hidden md:flex flex-1 justify-center items-center space-x-8">
+            <a href="info.html" class="nav-link">个人信息</a>
+            <a href="portfolio.html" class="nav-link">项目Demo</a>
+            <a href="docs.html" class="nav-link">项目文档</a>
+          </div>
+    
+          <!-- 右侧按钮组 -->
+          <div class="flex items-center space-x-4">
+            <a href="contact.html"
+               download
+               target="_blank"
+               class="hidden md:inline-block px-4 py-2 text-sm font-semibold text-blue-600 bg-white rounded-lg border border-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 transition-all duration-300">
+              联系我
+            </a>
+            <!-- 移动端汉堡按钮 -->
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100">
+              <i data-lucide="menu" class="h-6 w-6"></i>
+            </button>
+          </div>
         </nav>
+    
+        <!-- 移动端下拉菜单 -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 flex flex-col items-center space-y-4 border-t border-gray-200">
-             <a href="info.html" class="nav-link-mobile" data-lang-cn="个人信息" data-lang-en="About Me">个人信息</a>
-             <a href="portfolio.html" class="nav-link-mobile" data-lang-cn="作品集" data-lang-en="Portfolio">作品集</a>
-             <a href="contact.html" class="nav-link-mobile" data-lang-cn="联系方式" data-lang-en="Contact">联系方式</a>
-             <a href="#" onclick="alert(document.documentElement.lang.startsWith('en') ? 'CV to be uploaded' : '简历待上传'); return false;" class="w-full text-center px-4 py-2 text-sm font-semibold text-blue-600 bg-white rounded-lg border border-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 transition-all duration-300 mt-2" data-lang-cn="下载简历" data-lang-en="Download CV">下载简历</a>
+          <a href="info.html" class="nav-link">个人信息</a>
+          <a href="portfolio.html" class="nav-link">项目Demo</a>
+          <a href="docs.html" class="nav-link">项目文档</a>
+          <a href="contact.html"
+             download
+             target="_blank"
+             class="w-full text-center px-4 py-2 text-sm font-semibold text-blue-600 bg-white rounded-lg border border-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 transition-all duration-300 mt-2">
+            联系我
+          </a>
         </div>
-    </header>
+      </header>
+
 
     <main class="pt-24 md:pt-32 pb-16">
         <section id="portfolio-full" class="container mx-auto px-6">
