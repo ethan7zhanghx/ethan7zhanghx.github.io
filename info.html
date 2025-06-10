@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-cn="个人信息 | 张昊鑫" data-lang-en="About Me | Haoxin Zhang">个人信息 | 张昊鑫</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="font-bold text-xl text-gray-900 tracking-wide" data-lang-cn="张昊鑫" data-lang-en="Haoxin Zhang">张昊鑫</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="info.html" class="nav-link" data-lang-cn="个人信息" data-lang-en="About Me">个人信息</a>
+                <a href="portfolio.html" class="nav-link" data-lang-cn="作品集" data-lang-en="Portfolio">作品集</a>
+                <a href="contact.html" class="nav-link" data-lang-cn="联系方式" data-lang-en="Contact">联系方式</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" onclick="alert(document.documentElement.lang.startsWith('en') ? 'CV to be uploaded' : '简历待上传'); return false;" class="hidden md:inline-block px-4 py-2 text-sm font-semibold text-blue-600 bg-white rounded-lg border border-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 transition-all duration-300" data-lang-cn="下载简历" data-lang-en="Download CV">下载简历</a>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm font-medium text-gray-600">中文</span>
+                    <button id="lang-switcher" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-300 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" type="button" role="switch" aria-checked="false">
+                        <span class="pointer-events-none inline-block h-5 w-5 translate-x-0 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                    </button>
+                    <span class="text-sm font-medium text-gray-600">EN</span>
+                </div>
+                 <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="menu" class="h-6 w-6"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 flex flex-col items-center space-y-4 border-t border-gray-200">
+             <a href="info.html" class="nav-link-mobile" data-lang-cn="个人信息" data-lang-en="About Me">个人信息</a>
+             <a href="portfolio.html" class="nav-link-mobile" data-lang-cn="作品集" data-lang-en="Portfolio">作品集</a>
+             <a href="contact.html" class="nav-link-mobile" data-lang-cn="联系方式" data-lang-en="Contact">联系方式</a>
+             <a href="#" onclick="alert(document.documentElement.lang.startsWith('en') ? 'CV to be uploaded' : '简历待上传'); return false;" class="w-full text-center px-4 py-2 text-sm font-semibold text-blue-600 bg-white rounded-lg border border-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 transition-all duration-300 mt-2" data-lang-cn="下载简历" data-lang-en="Download CV">下载简历</a>
+        </div>
+    </header>
+
+    <main class="pt-24 md:pt-32 pb-16">
+        <section id="info-hero" class="container mx-auto px-6 pb-16 md:pb-24 flex flex-col-reverse md:flex-row items-center text-center md:text-left">
+            <div class="w-full md:w-3/5 mt-12 md:mt-0">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight" data-lang-cn="张昊鑫" data-lang-en="Haoxin Zhang">张昊鑫</h1>
+                <div class="mt-8 text-lg text-gray-600 max-w-xl mx-auto md:mx-0 space-y-3">
+                    <p class="font-semibold text-gray-800" data-lang-cn="核心优势：" data-lang-en="Core Strengths:"></p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-600 text-left sm:pl-4">
+                        <li data-lang-cn="AI产品实战 (百度AI技术生态部): 用户洞察驱动产品策略调整。" data-lang-en="AI Product Practice (Baidu AI Technology Ecosystem): User insight-driven product strategy.">AI产品实战 (百度AI技术生态部): 用户洞察驱动产品策略调整。</li>
+                        <li data-lang-cn="AI市场研究 (国泰君安研究所): 深度分析AI产品盈利模式与竞争格局。" data-lang-en="AI Market Research (Guotai Junan Securities): In-depth analysis of AI product profit models & competitive landscape.">AI市场研究 (国泰君安研究所): 深度分析AI产品盈利模式与竞争格局。</li>
+                        <li data-lang-cn="数据分析能力: 数据产品开发 + 专业背景 + 建模经历，构建数据驱动的产品思维。" data-lang-en="Data Analysis Skills: Data product development + professional background + modeling experience, fostering a data-driven product mindset.">数据分析能力: 数据产品开发 + 专业背景 + 建模经历，构建数据驱动的产品思维。</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="w-full md:w-2/5 flex justify-center items-center">
+                <div class="w-64 h-80 md:w-72 md:h-96 bg-gray-200 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                    <span class="text-gray-500 font-medium text-center px-4" data-lang-cn="「证件照占位符，待张昊鑫提供」" data-lang-en="[Photo Placeholder, to be provided by Haoxin Zhang]">「证件照占位符，待张昊鑫提供」</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="resume-content" class="bg-white py-16 md:py-24">
+            <div class="container mx-auto px-6 max-w-4xl">
+                 <div class="text-center mb-12">
+                    <h2 class="section-title" data-lang-cn="详细履历" data-lang-en="Detailed Resume">详细履历</h2>
+                </div>
+                <div id="resume-container" class="prose prose-lg max-w-none prose-h1:text-3xl prose-h1:md:text-4xl prose-h3:text-blue-600 prose-h3:font-semibold prose-a:text-blue-600 hover:prose-a:text-blue-700">
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="container mx-auto px-6 py-16 md:py-24">
+            <div class="max-w-4xl mx-auto bg-transparent p-0 rounded-lg">
+                <div class="text-center mb-12">
+                    <h2 class="section-title" data-lang-cn="技能树" data-lang-en="Skill Tree">技能树</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg border border-gray-200/80 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+                        <h3 class="text-xl font-bold mb-4 text-gray-900 flex items-center"><i data-lucide="code" class="w-6 h-6 mr-3 text-blue-600"></i><span data-lang-cn="编程语言" data-lang-en="Programming Languages">编程语言</span></h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">Matlab</span>
+                            <span class="skill-tag">C++</span>
+                            <span class="skill-tag">R</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-gray-200/80 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+                        <h3 class="text-xl font-bold mb-4 text-gray-900 flex items-center"><i data-lucide="brain-circuit" class="w-6 h-6 mr-3 text-blue-600"></i><span data-lang-cn="AI工具" data-lang-en="AI Tools">AI工具</span></h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag">Coze</span>
+                            <span class="skill-tag">Dify</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-gray-200/80 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+                        <h3 class="text-xl font-bold mb-4 text-gray-900 flex items-center"><i data-lucide="database" class="w-6 h-6 mr-3 text-blue-600"></i><span data-lang-cn="数据工具" data-lang-en="Data Tools">数据工具</span></h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag">Wind</span>
+                            <span class="skill-tag">Bloomberg</span>
+                            <span class="skill-tag">MySQL</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-gray-200/80 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+                        <h3 class="text-xl font-bold mb-4 text-gray-900 flex items-center"><i data-lucide="file-text" class="w-6 h-6 mr-3 text-blue-600"></i><span data-lang-cn="办公工具" data-lang-en="Office Tools">办公工具</span></h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag">MS Office</span>
+                            <span class="skill-tag">Markdown</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; <span id="footer-year">2025</span> <span data-lang-cn="张昊鑫" data-lang-en="Haoxin Zhang">张昊鑫</span>. <span data-lang-cn="版权所有" data-lang-en="All Rights Reserved">版权所有</span>.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

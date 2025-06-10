@@ -1,0 +1,102 @@
+:root {
+    --brand-blue: #2563eb;
+    --brand-blue-dark: #1d4ed8;
+    --gray-bg: #f9fafb;
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+    --white-bg: #ffffff;
+    --border-color: #e5e7eb;
+}
+
+body {
+    font-family: 'Manrope', 'Noto Sans SC', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html.lang-en body {
+    font-family: 'Manrope', sans-serif;
+}
+
+html.lang-cn body {
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+.nav-link {
+    @apply text-base font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200;
+}
+
+.nav-link-mobile {
+    @apply block w-full text-center text-base font-medium text-gray-600 py-2 rounded-md hover:bg-gray-100 hover:text-blue-600 transition-colors duration-200;
+}
+
+.section-title {
+    @apply text-3xl md:text-4xl font-bold text-gray-900;
+}
+
+.section-subtitle {
+    @apply mt-2 text-lg text-gray-500;
+}
+
+.project-card {
+    @apply bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2;
+}
+
+.skill-tag {
+    @apply bg-blue-50 text-blue-700 text-sm font-medium px-3 py-1.5 rounded-full border border-blue-200/80 cursor-default;
+}
+
+#lang-switcher[aria-checked="true"] span:first-child {
+    transform: translateX(1.25rem);
+}
+#lang-switcher[aria-checked="true"] {
+    background-color: var(--brand-blue);
+}
+
+
+.calendar-day.available {
+    @apply bg-green-50 text-green-800 cursor-pointer hover:bg-green-100;
+}
+
+.calendar-day.busy {
+    @apply bg-gray-100 text-gray-400 cursor-not-allowed line-through;
+}
+
+.calendar-day.today {
+    @apply !bg-blue-600 !text-white font-bold;
+}
+
+.calendar-day.other-month {
+    @apply text-gray-300;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    font-family: inherit;
+    font-weight: 700;
+}
+
+.prose {
+    color: var(--text-secondary);
+}
+
+.prose strong {
+    color: var(--text-primary);
+}
+
+.prose hr {
+    border-color: var(--border-color);
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+}
+
+.prose ul > li::before {
+    background-color: var(--brand-blue);
+}
+
+.prose code::before, .prose code::after {
+    content: "" !important;
+}
+
+.prose code {
+    @apply text-sm font-semibold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded-md border border-blue-200/80;
+}
