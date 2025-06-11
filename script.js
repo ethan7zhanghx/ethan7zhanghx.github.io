@@ -1,13 +1,17 @@
 import { initCalendar, isCalendarPage } from './calendar.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 确保 lucide 图标在 DOM 加载后创建
     lucide.createIcons();
+    
+    // 调用其他页面初始化函数
     initLanguageSwitcher();
-    initMobileMenu();
+    initMobileMenu(); // 确保函数定义在下面
     initHeaderScroll();
-    updateFooterYear();
+    updateFooterYear(); // 确保函数定义在下面
     updateActiveNav();
     
+    // 根据页面条件加载日历或简历
     if (isCalendarPage()) {
         initCalendar();
     }
@@ -15,12 +19,68 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('resume-container')) {
         loadMarkdownResume();
     }
+    
+    // --- Demo 模态框逻辑 (确保只在这里执行一次) ---
+    const openDemoModalBtn = document.getElementById('openDemoModalBtn'); // 体验Demo按钮
+    const demoModal = document.getElementById('demoModal'); // 模态框容器
+    const closeModalButton = document.getElementById('closeModal'); // 关闭按钮
+    const demoIframe = document.getElementById('demoIframe'); // iframe元素
+    const modalTitle = document.getElementById('modalTitle'); // 模态框标题
+    const loadingIndicator = document.getElementById('loadingIndicator'); // 加载指示器
+
+    // 只有当所有相关元素都成功获取到时，才设置事件监听器
+    if (openDemoModalBtn && demoModal && closeModalButton && demoIframe && modalTitle && loadingIndicator) {
+        // 点击 "体验Demo" 按钮
+        openDemoModalBtn.addEventListener('click', (event) => {
+            event.preventDefault(); // 阻止链接默认跳转行为
+
+            const demoPath = openDemoModalBtn.getAttribute('href'); // 获取 Demo 路径
+            // 获取项目标题作为模态框标题
+            const projectTitleElement = openDemoModalBtn.closest('.w-full.md\\:w-2\\/3').querySelector('h3');
+            const projectTitle = projectTitleElement ? projectTitleElement.textContent : 'Demo 演示';
+
+            modalTitle.textContent = projectTitle; // 设置模态框标题
+
+            // 显示加载指示器
+            loadingIndicator.classList.remove('hidden');
+            demoIframe.src = demoPath; // 设置 iframe 的 src，开始加载 Demo
+
+            // 监听 iframe 加载完成事件
+            demoIframe.onload = () => {
+                loadingIndicator.classList.add('hidden'); // 隐藏加载指示器
+            };
+
+            demoModal.classList.remove('hidden'); // 显示模态框
+            document.body.style.overflow = 'hidden'; // 禁止背景页面滚动
+        });
+
+        // 点击模态框关闭按钮
+        closeModalButton.addEventListener('click', () => {
+            demoModal.classList.add('hidden'); // 隐藏模态框
+            demoIframe.src = ''; // 清空 iframe 的 src，停止 Demo 运行并释放资源
+            document.body.style.overflow = ''; // 恢复背景页面滚动
+            loadingIndicator.classList.add('hidden'); // 再次隐藏以防万一
+        });
+
+        // 点击模态框背景区域（可选）
+        demoModal.addEventListener('click', (event) => {
+            if (event.target === demoModal) { // 确保点击的是模态框的背景而不是内容
+                demoModal.classList.add('hidden');
+                demoIframe.src = '';
+                document.body.style.overflow = '';
+                loadingIndicator.classList.add('hidden');
+            }
+        });
+    }
 });
+
+// --- 函数定义 (这些函数可以放在 DOMContentLoaded 外部，因为它们只是定义，不立即操作 DOM) ---
 
 async function loadMarkdownResume() {
     const container = document.getElementById('resume-container');
     if (!container) return;
 
+    // 假设 marked 库已通过 CDN 或其他方式加载
     if (typeof marked === 'undefined') {
         container.innerHTML = '<p>Error loading resume content.</p>';
         return;
@@ -51,7 +111,6 @@ function updateElementLanguage(el) {
         el.innerText = text;
     }
 }
-
 
 function initLanguageSwitcher() {
     const switcher = document.getElementById('lang-switcher');
@@ -99,6 +158,7 @@ function initLanguageSwitcher() {
     updateTexts(savedLang);
 }
 
+// 移动菜单的函数定义
 function initMobileMenu() {
     const menuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -109,6 +169,7 @@ function initMobileMenu() {
     });
 }
 
+// 头部滚动效果的函数定义
 function initHeaderScroll() {
     const header = document.getElementById('header');
     if (!header) return;
@@ -124,6 +185,7 @@ function initHeaderScroll() {
     });
 }
 
+// 页脚年份更新的函数定义
 function updateFooterYear() {
     const yearSpan = document.getElementById('footer-year');
     if(yearSpan) {
@@ -131,6 +193,7 @@ function updateFooterYear() {
     }
 }
 
+// 导航高亮更新的函数定义
 function updateActiveNav() {
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     
@@ -145,6 +208,8 @@ function updateActiveNav() {
         }
     });
 
+    // 注意：你的 HTML 中移动菜单的链接类名是 'nav-link' 而不是 'nav-link-mobile'
+    // 如果你希望它们不同，请更新 HTML。这里我保持了你的JS中的选择器
     document.querySelectorAll('#mobile-menu a.nav-link-mobile').forEach(link => {
         const linkPath = link.getAttribute('href').split('/').pop();
         if (linkPath === currentPath) {
@@ -153,85 +218,6 @@ function updateActiveNav() {
         } else {
             link.classList.remove('text-blue-600', 'font-bold', 'bg-blue-50');
             link.classList.add('text-gray-600');
-        }
-    });
-}
-
-// 初始化 Lucide Icons
-lucide.createIcons();
-
-// --- 移动菜单逻辑 (保持不变) ---
-const mobileMenuButton = document.getElementById('mobile-menu-button');
-const mobileMenu = document.getElementById('mobile-menu');
-
-if (mobileMenuButton && mobileMenu) {
-  mobileMenuButton.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
-  });
-}
-
-// --- 页脚年份动态更新 (保持不变) ---
-const footerYear = document.getElementById('footer-year');
-if (footerYear) {
-    footerYear.textContent = new Date().getFullYear();
-}
-
-// --- Demo 模态框逻辑 (新增部分) ---
-const openDemoModalBtn = document.getElementById('openDemoModalBtn'); // 体验Demo按钮
-const demoModal = document.getElementById('demoModal'); // 模态框容器
-const closeModalButton = document.getElementById('closeModal'); // 关闭按钮
-const demoIframe = document.getElementById('demoIframe'); // iframe元素
-const modalTitle = document.getElementById('modalTitle'); // 模态框标题
-const loadingIndicator = document.getElementById('loadingIndicator'); // 加载指示器
-
-if (openDemoModalBtn && demoModal && closeModalButton && demoIframe) {
-    // 点击 "体验Demo" 按钮
-    openDemoModalBtn.addEventListener('click', (event) => {
-        event.preventDefault(); // 阻止链接默认跳转行为
-
-        const demoPath = openDemoModalBtn.getAttribute('href'); // 获取 Demo 路径
-        // 获取项目标题作为模态框标题
-        const projectTitleElement = openDemoModalBtn.closest('.w-full.md\\:w-2\\/3').querySelector('h3');
-        const projectTitle = projectTitleElement ? projectTitleElement.textContent : 'Demo 演示';
-
-        modalTitle.textContent = projectTitle; // 设置模态框标题
-
-        // 显示加载指示器
-        if (loadingIndicator) {
-            loadingIndicator.classList.remove('hidden');
-        }
-        demoIframe.src = demoPath; // 设置 iframe 的 src，开始加载 Demo
-
-        // 监听 iframe 加载完成事件
-        demoIframe.onload = () => {
-            if (loadingIndicator) {
-                loadingIndicator.classList.add('hidden'); // 隐藏加载指示器
-            }
-        };
-
-        demoModal.classList.remove('hidden'); // 显示模态框
-        document.body.style.overflow = 'hidden'; // 禁止背景页面滚动
-    });
-
-    // 点击模态框关闭按钮
-    closeModalButton.addEventListener('click', () => {
-        demoModal.classList.add('hidden'); // 隐藏模态框
-        demoIframe.src = ''; // 清空 iframe 的 src，停止 Demo 运行并释放资源
-        document.body.style.overflow = ''; // 恢复背景页面滚动
-        if (loadingIndicator) { // 再次隐藏以防万一
-            loadingIndicator.classList.add('hidden');
-        }
-    });
-
-    // 点击模态框背景区域（可选）
-    demoModal.addEventListener('click', (event) => {
-        if (event.target === demoModal) { // 确保点击的是模态框的背景而不是内容
-            demoModal.classList.add('hidden');
-            demoIframe.src = '';
-            document.body.style.overflow = '';
-            if (loadingIndicator) {
-                loadingIndicator.classList.add('hidden');
-            }
         }
     });
 }
