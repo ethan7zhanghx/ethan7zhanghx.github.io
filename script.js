@@ -156,3 +156,82 @@ function updateActiveNav() {
         }
     });
 }
+
+// 初始化 Lucide Icons
+lucide.createIcons();
+
+// --- 移动菜单逻辑 (保持不变) ---
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+
+if (mobileMenuButton && mobileMenu) {
+  mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+}
+
+// --- 页脚年份动态更新 (保持不变) ---
+const footerYear = document.getElementById('footer-year');
+if (footerYear) {
+    footerYear.textContent = new Date().getFullYear();
+}
+
+// --- Demo 模态框逻辑 (新增部分) ---
+const openDemoModalBtn = document.getElementById('openDemoModalBtn'); // 体验Demo按钮
+const demoModal = document.getElementById('demoModal'); // 模态框容器
+const closeModalButton = document.getElementById('closeModal'); // 关闭按钮
+const demoIframe = document.getElementById('demoIframe'); // iframe元素
+const modalTitle = document.getElementById('modalTitle'); // 模态框标题
+const loadingIndicator = document.getElementById('loadingIndicator'); // 加载指示器
+
+if (openDemoModalBtn && demoModal && closeModalButton && demoIframe) {
+    // 点击 "体验Demo" 按钮
+    openDemoModalBtn.addEventListener('click', (event) => {
+        event.preventDefault(); // 阻止链接默认跳转行为
+
+        const demoPath = openDemoModalBtn.getAttribute('href'); // 获取 Demo 路径
+        // 获取项目标题作为模态框标题
+        const projectTitleElement = openDemoModalBtn.closest('.w-full.md\\:w-2\\/3').querySelector('h3');
+        const projectTitle = projectTitleElement ? projectTitleElement.textContent : 'Demo 演示';
+
+        modalTitle.textContent = projectTitle; // 设置模态框标题
+
+        // 显示加载指示器
+        if (loadingIndicator) {
+            loadingIndicator.classList.remove('hidden');
+        }
+        demoIframe.src = demoPath; // 设置 iframe 的 src，开始加载 Demo
+
+        // 监听 iframe 加载完成事件
+        demoIframe.onload = () => {
+            if (loadingIndicator) {
+                loadingIndicator.classList.add('hidden'); // 隐藏加载指示器
+            }
+        };
+
+        demoModal.classList.remove('hidden'); // 显示模态框
+        document.body.style.overflow = 'hidden'; // 禁止背景页面滚动
+    });
+
+    // 点击模态框关闭按钮
+    closeModalButton.addEventListener('click', () => {
+        demoModal.classList.add('hidden'); // 隐藏模态框
+        demoIframe.src = ''; // 清空 iframe 的 src，停止 Demo 运行并释放资源
+        document.body.style.overflow = ''; // 恢复背景页面滚动
+        if (loadingIndicator) { // 再次隐藏以防万一
+            loadingIndicator.classList.add('hidden');
+        }
+    });
+
+    // 点击模态框背景区域（可选）
+    demoModal.addEventListener('click', (event) => {
+        if (event.target === demoModal) { // 确保点击的是模态框的背景而不是内容
+            demoModal.classList.add('hidden');
+            demoIframe.src = '';
+            document.body.style.overflow = '';
+            if (loadingIndicator) {
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+    });
+}
