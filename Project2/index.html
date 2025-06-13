@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI辅助剧本撰写 - 产品概念演示</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-gray-300 font-sans">
+
+    <div id="app" class="flex flex-col min-h-screen">
+        <main class="flex-grow container mx-auto p-4 md:p-8">
+
+            <div class="mb-6 p-5 bg-gray-800 border-l-4 border-blue-400 rounded-r-lg shadow-lg">
+                <h2 class="text-lg font-bold text-white flex items-center gap-2 mb-2">
+                    <i data-lucide="brain-circuit" class="text-blue-400"></i>
+                    产品概念演示：AI 作为“智能伙伴”
+                </h2>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    这是一个关于“AI辅助剧本撰写”产品的概念演示。它并非一个功能齐全的软件，而是旨在直观展示产品作为创作者<strong>“智能伙伴”</strong>的核心理念——即AI如何深度理解叙事，并在创作的关键节点提供启发与支持，<strong>而非替代</strong>人类的创造力。
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8 h-full">
+                
+                <!-- Left Column: Script Editor -->
+                <div class="w-full lg:w-6/10 bg-gray-800/50 rounded-lg shadow-2xl shadow-black/30 ring-1 ring-white/10 backdrop-blur-sm overflow-hidden flex flex-col">
+                    <div class="p-4 border-b border-gray-700">
+                        <h1 class="text-xl font-bold text-white">剧本：《迷失的信号》</h1>
+                         <p class="text-sm text-gray-400 mt-2">
+                            <i data-lucide="edit-3" class="inline-block h-4 w-4 mr-1 align-bottom"></i>
+                            <strong>创作者的核心工作区:</strong> 他们在这里撰写和编辑剧本，将脑海中的故事付诸笔端。
+                        </p>
+                    </div>
+                    <div class="p-6 text-base leading-relaxed overflow-y-auto flex-grow script-editor">
+                        <pre class="whitespace-pre-wrap font-mono">
+场景：废弃空间站 - 控制室 - 日
+
+[SCENE START]
+
+INT. ABANDONED SPACE STATION - CONTROL ROOM - DAY
+
+冰冷的金属墙壁上覆盖着一层薄霜。巨大的舷窗外，地球的蓝色弧线静静悬挂在漆黑的宇宙中。
+
+控制台上的屏幕闪烁着不稳定的红光，发出微弱的警报声。
+
+艾拉（30岁），穿着破旧的宇航服，眼神疲惫但坚定。她快速地敲击着键盘，试图恢复通讯。
+
+艾拉
+（对自己说）
+就差一点...再给我一点时间...
+
+突然，一个屏幕亮起，显示出一段杂乱的代码。艾拉的瞳孔瞬间收缩。
+
+屏幕上，代码汇集成一行清晰的文字：“不要回头。”
+
+艾拉
+（震惊）
+这是...什么？
+
+[SCARLET]
+(通过扬声器，声音失真)
+它在警告你。
+
+艾拉猛地回头，空无一人。
+
+艾拉
+谁？你是谁？
+
+[SCARLET]
+一个不想让你重蹈覆辙的朋友。你必须走。
+
+[SCENE END]
+</pre>
+                    </div>
+                </div>
+
+                <!-- Right Column: AI Assistant Panel -->
+                <div class="w-full lg:w-4/10">
+                    <div class="bg-gray-800/50 rounded-lg shadow-2xl shadow-black/30 ring-1 ring-white/10 backdrop-blur-sm flex flex-col sticky top-8">
+                         <div class="p-5 border-b border-gray-700/50">
+                            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                                <i data-lucide="sparkles" class="text-blue-400"></i>
+                                AI 功能体系深度解析
+                            </h2>
+                            <p class="text-sm text-gray-400 mt-2">
+                                以下为核心AI功能的交互概念与价值展示。
+                            </p>
+                        </div>
+                        <div class="p-5 flex flex-col gap-6 max-h-[85vh] overflow-y-auto ai-panel-scroll">
+                            
+                            <!-- Feature: Dialogue Naturalness -->
+                            <div class="feature-block">
+                                <h3 class="feature-title"><i data-lucide="message-square-quote"></i> 对话自然度优化</h3>
+                                <p class="feature-description">解决对白平淡、不符人设的痛点。AI基于角色设定和场景氛围，分析并提供更生动、更具表现力的对话优化建议。</p>
+                                <div class="visual-demo grid grid-cols-2 gap-3">
+                                    <div>
+                                        <h4 class="font-semibold text-sm text-gray-400 mb-2 text-center">优化前</h4>
+                                        <div class="p-3 bg-gray-900/60 rounded text-sm text-gray-400 h-full">
+                                            [SCARLET]<br>一个不想让你重蹈覆辙的朋友。你必须走。
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-sm text-green-400 mb-2 text-center">优化建议</h4>
+                                        <div class="p-3 bg-green-900/30 rounded border border-green-500/50 text-sm text-green-300 h-full">
+                                            [SCARLET]<br>我们是“朋友”，朋友不希望你重蹈我的覆辙。立刻离开这里。
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Feature: Pacing Control -->
+                            <div class="feature-block">
+                                <h3 class="feature-title"><i data-lucide="area-chart"></i> 剧本节奏智能调控</h3>
+                                <p class="feature-description">AI分析剧本的叙事节奏，通过可视化图表直观展示高潮与低谷，并标记出冗长或仓促的段落，辅助创作者精准优化观看体验。</p>
+                                <div class="visual-demo p-3 bg-gray-900/60 rounded">
+                                    <canvas id="pacingChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Feature: Plot Logic Analysis -->
+                            <div class="feature-block">
+                                <h3 class="feature-title"><i data-lucide="network"></i> 情节逻辑分析</h3>
+                                <p class="feature-description">将剧本抽象为情节事件图，自动梳理因果链与时间线，精准检测逻辑断点、矛盾之处，确保故事严谨流畅。</p>
+                                <div class="visual-demo p-4 bg-gray-900/60 rounded text-center">
+                                    <div class="flex justify-between items-center text-xs font-medium">
+                                        <div class="node">场景1: 发现飞船</div>
+                                        <div class="connector"></div>
+                                        <div class="node node-error">场景2: 获得钥匙</div>
+                                        <div class="connector"></div>
+                                        <div class="node">场景3: 找到锁住的门</div>
+                                    </div>
+                                    <div class="text-red-400 text-xs text-center mt-4 flex items-center justify-center gap-2">
+                                        <i data-lucide="alert-triangle" class="h-4 w-4 flex-shrink-0"></i>
+                                        <span>逻辑漏洞：在找到“门”之前，“钥匙”就已出现。</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Feature: Character Consistency -->
+                            <div class="feature-block">
+                                <h3 class="feature-title"><i data-lucide="user-check"></i> 角色一致性检查</h3>
+                                <p class="feature-description">AI构建角色画像，持续分析其在剧本中的言行，当检测到与既定性格的逻辑矛盾 (OOC) 时主动预警，帮助塑造可信的角色。</p>
+                                <div class="visual-demo p-3 bg-gray-900/60 rounded flex gap-4 items-start">
+                                    <div class="flex-shrink-0 text-center">
+                                        <div class="w-16 h-16 bg-blue-900/50 rounded-full flex items-center justify-center mx-auto">
+                                             <i data-lucide="user" class="w-8 h-8 text-blue-300"></i>
+                                        </div>
+                                        <p class="text-sm font-bold mt-2">艾拉</p>
+                                    </div>
+                                    <div class="flex-grow">
+                                        <h5 class="text-sm font-semibold text-gray-300">性格设定:</h5>
+                                        <p class="text-xs text-gray-400 mb-2">冷静、果断、受过严格训练的宇航员。</p>
+                                        <div class="p-3 rounded bg-amber-900/30 border border-amber-500/50">
+                                             <h5 class="text-sm font-semibold text-amber-300 flex items-center gap-1.5">
+                                                <i data-lucide="alert-circle" class="w-4 h-4"></i> OOC 风险提示
+                                             </h5>
+                                             <p class="text-xs text-amber-400 mt-1">
+                                                在“场景5”中，艾拉面对小故障时表现出“极度恐慌”，与“冷静果断”的核心设定存在潜在矛盾。
+                                             </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Feature: Scene Enhancement -->
+                            <div class="feature-block">
+                                <h3 class="feature-title"><i data-lucide="wand-2"></i> 场景氛围增强</h3>
+                                <p class="feature-description">解决场景描写单薄问题。AI智能补充环境细节、感官信息（听觉、视觉、气味等），使场景更具画面感和代入感。</p>
+                                <div class="visual-demo p-3 bg-gray-900/60 rounded">
+                                    <p class="text-sm text-gray-400 mb-3 border-l-2 border-gray-600 pl-3">
+                                        <strong>原始描述:</strong><br>
+                                        INT. ABANDONED SPACE STATION - CONTROL ROOM - DAY
+                                    </p>
+                                    <div class="space-y-2">
+                                        <div class="suggestion-item">
+                                            <i data-lucide="ear" class="suggestion-icon text-blue-400"></i>
+                                            <p><strong>[听觉]</strong> "只有艾拉急促的呼吸声和设备低沉、规律的嗡鸣声在死寂中回响。"</p>
+                                        </div>
+                                        <div class="suggestion-item">
+                                            <i data-lucide="thermometer" class="suggestion-icon text-orange-400"></i>
+                                            <p><strong>[感官]</strong> "空气中弥漫着金属冷却后的铁锈味和尘埃的混合气息。"</p>
+                                        </div>
+                                        <div class="suggestion-item">
+                                            <i data-lucide="eye" class="suggestion-icon text-purple-400"></i>
+                                            <p><strong>[视觉]</strong> "一束孤独的光束从天花板的破洞中射入，照亮了空中飞舞的无数尘埃。"</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center p-4 mt-8">
+            <p class="text-xs text-gray-500">这是一个基于产品思考报告的概念演示，旨在阐释核心功能与交互理念，并非一个可运行的软件。</p>
+        </footer>
+    </div>
+    
+    <script src="ui_enhancements.js"></script>
+</body>
+</html>

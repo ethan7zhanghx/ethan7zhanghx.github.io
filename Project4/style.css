@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: #F8F9FA;
+    color: #212529;
+    overflow: hidden;
+}
+
+.kanban-column {
+    min-width: 320px;
+    width: 320px;
+}
+
+.pr-2::-webkit-scrollbar {
+    width: 6px;
+}
+ 
+.pr-2::-webkit-scrollbar-track {
+    background: transparent;
+}
+ 
+.pr-2::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 20px;
+    border: 3px solid transparent;
+}
+
+.kanban-card {
+    cursor: grab;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.kanban-card:active {
+    cursor: grabbing;
+}
+
+.dragging {
+    opacity: 0.5;
+    transform: rotate(2deg) scale(1.05);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.kanban-dropzone {
+    transition: background-color 0.2s ease;
+}
+
+.drag-over {
+    background-color: #eef2ff;
+    border-radius: 0.75rem;
+}
