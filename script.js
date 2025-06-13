@@ -20,98 +20,110 @@ document.addEventListener('DOMContentLoaded', () => {
         loadMarkdownResume();
     }
     
+    // --- 辅助函数：判断是否为移动设备 ---
+    function isMobileDevice() {
+        // 简单判断，可以根据需要增加更复杂的规则
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768; // 768px 是 Tailwind CSS 的 md 断点
+    }
+
     // --- 嵌入式 Demo 区域逻辑 (现在是针对每个项目进行操作) ---
 
     // 为所有 "体验Demo" 按钮添加事件监听器
-    const allDemoButtons = document.querySelectorAll('.open-embedded-demo-btn'); // 注意：现在使用类选择器
+    const allDemoButtons = document.querySelectorAll('.open-embedded-demo-btn'); // 使用类选择器
 
     allDemoButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-            event.preventDefault(); // 阻止链接默认跳转行为
+            event.preventDefault(); // 阻止链接默认跳转行为，由JS控制跳转或显示
 
             const demoPath = button.getAttribute('href'); // 获取 Demo 路径
             
-            // 找到当前点击按钮所属的最近的项目容器 (.project-item)
-            const projectItem = button.closest('.project-item'); 
-            if (!projectItem) {
-                console.error('未找到项目容器 .project-item。');
-                return;
-            }
-
-            // 在当前项目容器内查找对应的 Demo 元素
-            const embeddedDemoContainer = projectItem.querySelector('.embedded-demo-container');
-            const embeddedDemoIframe = projectItem.querySelector('.embedded-demo-iframe');
-            const embeddedDemoTitle = projectItem.querySelector('.embedded-demo-title');
-            const embeddedLoadingIndicator = projectItem.querySelector('.embedded-loading-indicator');
-            const closeEmbeddedDemoButton = projectItem.querySelector('.close-embedded-demo-btn');
-
-            // 关键检查：确保 HTML 中所有元素都存在
-            if (!embeddedDemoContainer || !embeddedDemoIframe || !embeddedDemoTitle || !embeddedLoadingIndicator || !closeEmbeddedDemoButton) {
-                console.error('当前项目内部的嵌入式 Demo 元素未找到。请检查 portfolio.html 中 .project-item 内部的 HTML 结构。');
-                return;
-            }
-
             // 获取项目标题：从最近的父级 `.w-full.md\:w-2\/3` 中查找 `h3` 标签
             const projectTitleElement = button.closest('.w-full.md\\:w-2\\/3')?.querySelector('h3');
             const projectTitle = projectTitleElement ? projectTitleElement.textContent : 'Demo 演示';
 
-            // 滚动到 Demo 区域，提升用户体验 (滚动到当前项目的 Demo 容器)
-            embeddedDemoContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            embeddedDemoTitle.textContent = projectTitle; // 设置 Demo 区域标题
-            embeddedLoadingIndicator.classList.remove('hidden'); // 显示加载指示器
-            embeddedDemoIframe.src = ''; // 先清空 iframe 的 src，防止旧内容残留
-
-            // 延迟设置 iframe src，给加载指示器一个显示的机会
-            setTimeout(() => {
-                embeddedDemoIframe.src = demoPath; // 设置 iframe 的 src，开始加载 Demo
-
-                // 监听 iframe 加载完成事件
-                embeddedDemoIframe.onload = () => {
-                    embeddedLoadingIndicator.classList.add('hidden'); // 隐藏加载指示器
-                };
-                // 监听 iframe 加载错误事件
-                embeddedDemoIframe.onerror = () => {
-                    embeddedLoadingIndicator.textContent = 'Demo 加载失败。请检查路径或稍后再试。';
-                    console.error('Failed to load demo from:', demoPath);
-                };
-            }, 100); // 短暂延迟，让加载指示器可见
-
-            // 隐藏所有其他项目的 Demo 容器
-            document.querySelectorAll('.embedded-demo-container').forEach(container => {
-                if (container !== embeddedDemoContainer) {
-                    container.classList.add('hidden');
-                    container.querySelector('.embedded-demo-iframe').src = ''; // 清空其他 iframe
-                    container.querySelector('.embedded-loading-indicator').classList.add('hidden'); // 隐藏加载指示器
-                    container.querySelector('.embedded-demo-title').textContent = '项目 Demo 演示'; // 恢复默认标题
-                }
-            });
-
-            embeddedDemoContainer.classList.remove('hidden'); // 显示当前点击的嵌入式 Demo 容器
-
-            // 为当前 Demo 的关闭按钮添加事件监听器
-            if (closeEmbeddedDemoButton) {
-                // 先移除旧的监听器，防止重复添加
-                const oldCloseHandler = closeEmbeddedDemoButton.dataset.closeHandler;
-                if (oldCloseHandler) {
-                    closeEmbeddedDemoButton.removeEventListener('click', eval(oldCloseHandler));
-                }
-
-                const currentCloseHandler = () => {
-                    embeddedDemoContainer.classList.add('hidden'); // 隐藏嵌入式 Demo 容器
-                    embeddedDemoIframe.src = ''; // 清空 iframe 的 src，停止 Demo 运行并释放资源
-                    embeddedLoadingIndicator.classList.add('hidden'); // 隐藏加载指示器
-                    embeddedDemoTitle.textContent = '项目 Demo 演示'; // 恢复默认标题
-                    closeEmbeddedDemoButton.removeEventListener('click', currentCloseHandler); // 移除当前监听器
-                };
-                closeEmbeddedDemoButton.addEventListener('click', currentCloseHandler);
-                closeEmbeddedDemoButton.dataset.closeHandler = currentCloseHandler.name || `() => { /* ... */ }`; // Store function to remove later
+            if (isMobileDevice()) {
+                // 如果是移动设备，直接打开新页面
+                window.open(demoPath, '_blank'); 
+            } else {
+                // 如果是桌面设备，使用嵌入式显示
+                openEmbeddedDemo(button, demoPath, projectTitle);
             }
         });
     });
 
-    // 注意：这里的通用 openEmbeddedDemo 和 closeEmbeddedDemo 函数已被修改/移除，
-    // 因为现在操作是针对每个项目内部的特定 Demo 容器。
+    // 通用函数：打开嵌入式 Demo 区域 (仅用于桌面端)
+    function openEmbeddedDemo(triggerButton, demoPath, title) {
+        // 找到当前点击按钮所属的最近的项目容器 (.project-item)
+        const projectItem = triggerButton.closest('.project-item'); 
+        if (!projectItem) {
+            console.error('未找到项目容器 .project-item。');
+            return;
+        }
+
+        // 在当前项目容器内查找对应的 Demo 元素
+        const embeddedDemoContainer = projectItem.querySelector('.embedded-demo-container');
+        const embeddedDemoIframe = projectItem.querySelector('.embedded-demo-iframe');
+        const embeddedDemoTitle = projectItem.querySelector('.embedded-demo-title');
+        const embeddedLoadingIndicator = projectItem.querySelector('.embedded-loading-indicator');
+        const closeEmbeddedDemoButton = projectItem.querySelector('.close-embedded-demo-btn');
+
+        // 关键检查：确保 HTML 中所有元素都存在
+        if (!embeddedDemoContainer || !embeddedDemoIframe || !embeddedDemoTitle || !embeddedLoadingIndicator || !closeEmbeddedDemoButton) {
+            console.error('当前项目内部的嵌入式 Demo 元素未找到。请检查 portfolio.html 中 .project-item 内部的 HTML 结构。');
+            return;
+        }
+
+        // 滚动到 Demo 区域，提升用户体验 (滚动到当前项目的 Demo 容器)
+        embeddedDemoContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        embeddedDemoTitle.textContent = title; // 设置 Demo 区域标题
+        embeddedLoadingIndicator.classList.remove('hidden'); // 显示加载指示器
+        embeddedDemoIframe.src = ''; // 先清空 iframe 的 src，防止旧内容残留
+
+        // 延迟设置 iframe src，给加载指示器一个显示的机会
+        setTimeout(() => {
+            embeddedDemoIframe.src = demoPath; // 设置 iframe 的 src，开始加载 Demo
+
+            // 监听 iframe 加载完成事件
+            embeddedDemoIframe.onload = () => {
+                embeddedLoadingIndicator.classList.add('hidden'); // 隐藏加载指示器
+            };
+            // 监听 iframe 加载错误事件
+            embeddedDemoIframe.onerror = () => {
+                embeddedLoadingIndicator.textContent = 'Demo 加载失败。请检查路径或稍后再试。';
+                console.error('Failed to load demo from:', demoPath);
+            };
+        }, 100); // 短暂延迟，让加载指示器可见
+
+        // 隐藏所有其他项目的 Demo 容器
+        document.querySelectorAll('.embedded-demo-container').forEach(container => {
+            if (container !== embeddedDemoContainer) {
+                container.classList.add('hidden');
+                container.querySelector('.embedded-demo-iframe').src = ''; // 清空其他 iframe
+                container.querySelector('.embedded-loading-indicator').classList.add('hidden'); // 隐藏加载指示器
+                container.querySelector('.embedded-demo-title').textContent = '项目 Demo 演示'; // 恢复默认标题
+            }
+        });
+
+        embeddedDemoContainer.classList.remove('hidden'); // 显示当前点击的嵌入式 Demo 容器
+    }
+
+    // 为所有嵌入式 Demo 的关闭按钮添加事件监听器 (在 DOMContentLoaded 时统一设置)
+    document.querySelectorAll('.close-embedded-demo-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const embeddedDemoContainer = button.closest('.embedded-demo-container');
+            if (!embeddedDemoContainer) return;
+
+            const embeddedDemoIframe = embeddedDemoContainer.querySelector('.embedded-demo-iframe');
+            const embeddedLoadingIndicator = embeddedDemoContainer.querySelector('.embedded-loading-indicator');
+            const embeddedDemoTitle = embeddedDemoContainer.querySelector('.embedded-demo-title');
+
+            embeddedDemoContainer.classList.add('hidden'); // 隐藏嵌入式 Demo 容器
+            if (embeddedDemoIframe) embeddedDemoIframe.src = ''; // 清空 iframe 的 src，停止 Demo 运行并释放资源
+            if (embeddedLoadingIndicator) embeddedLoadingIndicator.classList.add('hidden'); // 隐藏加载指示器
+            if (embeddedDemoTitle) embeddedDemoTitle.textContent = '项目 Demo 演示'; // 恢复默认标题
+        });
+    });
 
 });
 
