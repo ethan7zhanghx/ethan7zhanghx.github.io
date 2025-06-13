@@ -30,8 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 通用函数：打开嵌入式 Demo 区域
     function openEmbeddedDemo(demoPath, title) {
-        if (!embeddedDemoContainer || !embeddedDemoIframe || !embeddedDemoTitle || !embeddedLoadingIndicator) {
-            console.error('Embedded demo elements not found.');
+        // 关键检查：确保 HTML 中所有 ID 都存在，否则 JavaScript 无法操作它们
+        if (!embeddedDemoContainer || !embeddedDemoIframe || !embeddedDemoTitle || !embeddedLoadingIndicator || !closeEmbeddedDemoButton) {
+            console.error('嵌入式 Demo 元素未找到。请检查您的 portfolio.html 文件，确保所有必要的 ID 都已正确添加 (embeddedDemoContainer, embeddedDemoIframe, embeddedDemoTitle, embeddedLoadingIndicator, closeEmbeddedDemo)。');
+            // 可以添加一个用户友好的提示，例如 alert('Demo 加载失败，请联系管理员。')
             return;
         }
 
@@ -52,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             // 监听 iframe 加载错误事件
             embeddedDemoIframe.onerror = () => {
-                embeddedLoadingIndicator.textContent = 'Demo加载失败。请检查路径或稍后再试。';
+                embeddedLoadingIndicator.textContent = 'Demo 加载失败。请检查路径或稍后再试。';
                 console.error('Failed to load demo from:', demoPath);
             };
         }, 100); // 短暂延迟，让加载指示器可见
