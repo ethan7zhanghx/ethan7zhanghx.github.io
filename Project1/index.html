@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交互式游戏编辑器模拟</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 text-gray-300 font-sans antialiased overflow-hidden">
+
+    <div id="app-container" class="flex flex-col h-screen">
+
+        <!-- Header -->
+        <header class="bg-gray-900/80 backdrop-blur-sm border-b border-cyan-500/20 flex items-center justify-between px-4 py-2 z-20 flex-shrink-0">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 7L12 12L22 7" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 22V12" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h1 class="text-lg font-bold text-white tracking-wider">GameWeaver AI</h1>
+                </div>
+                <div class="h-6 w-px bg-gray-700"></div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-gray-400">预设示例:</span>
+                    <select id="preset-selector" class="bg-gray-800 border border-gray-600 rounded-md text-white text-sm focus:ring-cyan-500 focus:border-cyan-500 px-3 py-1">
+                        <!-- Options will be populated by JS -->
+                    </select>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                 <button id="preview-btn" class="flex items-center gap-2 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 rounded-md text-white text-sm font-medium transition-colors">
+                    <i data-lucide="play-circle" class="w-4 h-4"></i>
+                    <span>交互式预览</span>
+                </button>
+                <div class="flex items-center gap-1">
+                    <button title="撤销 (模拟)" class="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md transition-colors"><i data-lucide="undo-2" class="w-4 h-4"></i></button>
+                    <button title="重做 (模拟)" class="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md transition-colors"><i data-lucide="redo-2" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow flex overflow-hidden">
+            
+            <!-- Center Panel: Node Editor -->
+            <div id="editor-container" class="flex-grow flex flex-col bg-gray-900 relative">
+                <div id="editor-viewport" class="w-full h-full bg-grid">
+                    <svg id="node-canvas" width="100%" height="100%"></svg>
+                </div>
+                 <div class="absolute top-2 left-2 flex gap-2 p-2 bg-gray-900/50 rounded-lg backdrop-blur-sm">
+                    <span class="text-xs text-gray-400 flex items-center gap-2">
+                        <i data-lucide="move" class="w-4 h-4"></i>
+                        拖拽节点移动, 拖拽空白处平移画布
+                    </span>
+                </div>
+            </div>
+
+            <!-- Right Panel: Config -->
+            <aside id="right-panel" class="w-1/4 max-w-sm bg-gray-800/50 p-4 border-l border-cyan-500/10 flex flex-col flex-shrink-0">
+                 <div class="flex items-center gap-2 text-white font-semibold mb-4 pb-2 border-b border-gray-700">
+                    <i data-lucide="sliders-horizontal" class="w-5 h-5 text-cyan-400"></i>
+                    <h2>节点与变量配置</h2>
+                </div>
+                <div id="config-panel" class="flex-grow overflow-y-auto pr-2">
+                    <!-- Config panel content will be generated here -->
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="w-full max-w-4xl h-[90vh] bg-gray-900/80 border border-cyan-500/20 rounded-xl shadow-2xl flex flex-col">
+            <header class="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="gamepad-2" class="w-6 h-6 text-cyan-400"></i>
+                    <h3 class="text-xl font-bold text-white">交互式预览</h3>
+                </div>
+                <button id="preview-close-btn" class="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </header>
+            <main class="flex-grow flex overflow-hidden">
+                <div id="preview-content-container" class="w-2/3 p-8 flex flex-col justify-center items-center overflow-y-auto">
+                    <div id="preview-content" class="w-full">
+                        <!-- Preview content rendered here -->
+                    </div>
+                </div>
+                <aside class="w-1/3 bg-gray-800/50 p-4 border-l border-gray-700 overflow-y-auto">
+                    <h4 class="font-semibold text-white mb-4 text-base">实时游戏变量</h4>
+                    <div id="preview-variables">
+                        <!-- Variable states rendered here -->
+                    </div>
+                </aside>
+            </main>
+        </div>
+    </div>
+
+    <!-- AI Generation Modal -->
+    <div id="ai-generation-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 items-center justify-center p-4">
+        <div class="w-full max-w-3xl bg-gray-900/80 border border-cyan-500/20 rounded-xl shadow-2xl flex flex-col">
+            <header class="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="bot" class="w-6 h-6 text-cyan-400"></i>
+                    <h3 class="text-xl font-bold text-white">AI 辅助内容创作 (模拟)</h3>
+                </div>
+                <button id="ai-modal-close-btn" class="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </header>
+            <main class="p-6">
+                <!-- Step 1: Requirement Refinement -->
+                <div id="ai-step-1-refine">
+                    <h4 class="text-lg font-semibold text-white mb-4">第一步：需求细化</h4>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="ai-script-input" class="form-label">剧本 / 需求描述</label>
+                            <textarea id="ai-script-input" class="form-input font-mono h-32" placeholder="例如：一个女孩在午后的图书馆安静看书，阳光照在她的侧脸，显得格外迷人。"></textarea>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="ai-style-select" class="form-label">风格</label>
+                                <select id="ai-style-select" class="form-input">
+                                    <option>现代写实</option>
+                                    <option>日系动漫</option>
+                                    <option>赛博朋克</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="ai-tone-select" class="form-label">色调</label>
+                                <select id="ai-tone-select" class="form-input">
+                                    <option>温暖明亮</option>
+                                    <option>冷峻阴郁</option>
+                                    <option>中性自然</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end">
+                        <button id="ai-next-step2-btn" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 rounded-md text-white font-medium transition-colors">下一步：搜索参考图</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Reference Image Search -->
+                <div id="ai-step-2-search" class="hidden">
+                    <h4 class="text-lg font-semibold text-white mb-4">第二步：参考图搜索</h4>
+                    <div class="mb-4">
+                        <input type="text" class="form-input" value="女孩 图书馆 阳光" disabled>
+                    </div>
+                    <div id="ai-reference-image-grid" class="grid grid-cols-4 gap-4">
+                        <img src="https://via.placeholder.com/150/81e6d9/1a202c?text=Ref+1" class="reference-image cursor-pointer rounded-lg hover:opacity-80 transition-opacity">
+                        <img src="https://via.placeholder.com/150/bee3f8/1a202c?text=Ref+2" class="reference-image cursor-pointer rounded-lg hover:opacity-80 transition-opacity">
+                        <img src="https://via.placeholder.com/150/f6ad55/1a202c?text=Ref+3" class="reference-image cursor-pointer rounded-lg hover:opacity-80 transition-opacity">
+                        <img src="https://via.placeholder.com/150/fbb6ce/1a202c?text=Ref+4" class="reference-image cursor-pointer rounded-lg hover:opacity-80 transition-opacity">
+                        <img src="https://via.placeholder.com/150/d6bcfa/1a202c?text=Ref+5" class="reference-image cursor-pointer rounded-lg hover:opacity-80 transition-opacity">
+                        <img src="https://via.placeholder.com/150/a0aec0/1a202c?text=Ref+6" class="reference-image cursor-pointer rounded-lg hover:opacity-80 transition-opacity">
+                        <img src="https://via.placeholder.com/150/b2f5ea/1a202c?text=Ref+7" class="reference-image cursor-pointer rounded-lg hover:opacity-80 transition-opacity">
+                        <img src="https://via.placeholder.com/150/feb2b2/1a202c?text=Ref+8" class="reference-image cursor-pointer rounded-lg hover:opacity-80 transition-opacity">
+                    </div>
+                     <div class="mt-6 flex justify-end">
+                        <button id="ai-next-step3-btn" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 rounded-md text-white font-medium transition-colors">下一步：生成片段</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Clip Generation -->
+                <div id="ai-step-3-generate" class="hidden">
+                    <h4 class="text-lg font-semibold text-white mb-4">第三步：片段生成</h4>
+                    <div class="h-48 flex flex-col items-center justify-center space-y-4">
+                        <p id="ai-generation-status-text" class="text-lg text-gray-300"></p>
+                        <div id="ai-progress-container" class="w-full bg-gray-700 rounded-full h-2.5">
+                            <div id="ai-generation-progress-bar" class="bg-cyan-500 h-2.5 rounded-full transition-all duration-300 ease-linear"></div>
+                        </div>
+                        <div id="ai-video-placeholder" class="hidden w-full h-full bg-black rounded-lg flex items-center justify-center">
+                            <i data-lucide="play-circle" class="w-16 h-16 text-gray-600"></i>
+                        </div>
+                    </div>
+                     <div class="mt-6 flex justify-end">
+                        <button id="ai-finish-btn" class="hidden px-4 py-2 bg-green-600 hover:bg-green-500 rounded-md text-white font-medium transition-colors">完成并关闭</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
