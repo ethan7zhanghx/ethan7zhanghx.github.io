@@ -3,23 +3,23 @@ import { initCalendar, isCalendarPage } from './calendar.js';
 document.addEventListener('DOMContentLoaded', () => {
     // 确保 lucide 图标在 DOM 加载后创建
     lucide.createIcons();
-    
+
     // 调用其他页面初始化函数
     initLanguageSwitcher();
-    initMobileMenu(); 
+    initMobileMenu();
     initHeaderScroll();
-    updateFooterYear(); 
+    updateFooterYear();
     updateActiveNav();
-    
+
     // 根据页面条件加载日历或简历
     if (isCalendarPage()) {
         initCalendar();
     }
-    
+
     if (document.getElementById('resume-container')) {
         loadMarkdownResume();
     }
-    
+
     // --- 辅助函数：判断是否为移动设备 ---
     function isMobileDevice() {
         // 简单判断，可以根据需要增加更复杂的规则
@@ -29,21 +29,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 嵌入式 Demo 区域逻辑 (现在是针对每个项目进行操作) ---
 
     // 为所有 "体验Demo" 按钮添加事件监听器
-    const allDemoButtons = document.querySelectorAll('.open-embedded-demo-btn'); // 使用类选择器
+    const allDemoButtons = document.querySelectorAll('.open-embedded-demo-btn');
 
     allDemoButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault(); // 阻止链接默认跳转行为，由JS控制跳转或显示
 
-            const demoPath = button.getAttribute('href'); // 获取 Demo 路径
-            
+            // *** 核心修复：从 data-demo-src 获取路径 ***
+            const demoPath = button.dataset.demoSrc; // 正确获取 Demo 路径
+
             // 获取项目标题：从最近的父级 `.w-full.md\:w-2\/3` 中查找 `h3` 标签
             const projectTitleElement = button.closest('.w-full.md\\:w-2\\/3')?.querySelector('h3');
             const projectTitle = projectTitleElement ? projectTitleElement.textContent : 'Demo 演示';
 
             if (isMobileDevice()) {
                 // 如果是移动设备，直接打开新页面
-                window.open(demoPath, '_blank'); 
+                window.open(demoPath, '_blank');
             } else {
                 // 如果是桌面设备，使用嵌入式显示
                 openEmbeddedDemo(button, demoPath, projectTitle);
@@ -54,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 通用函数：打开嵌入式 Demo 区域 (仅用于桌面端)
     function openEmbeddedDemo(triggerButton, demoPath, title) {
         // 找到当前点击按钮所属的最近的项目容器 (.project-item)
-        const projectItem = triggerButton.closest('.project-item'); 
+        const projectItem = triggerButton.closest('.project-item');
         if (!projectItem) {
             console.error('未找到项目容器 .project-item。');
             return;
@@ -80,18 +81,25 @@ document.addEventListener('DOMContentLoaded', () => {
         embeddedLoadingIndicator.classList.remove('hidden'); // 显示加载指示器
         embeddedDemoIframe.src = ''; // 先清空 iframe 的 src，防止旧内容残留
 
+        // 优化：加载前让 iframe 透明，防止空白闪烁
+        embeddedDemoIframe.style.opacity = '0';
+        embeddedDemoIframe.style.transition = 'opacity 0.3s ease-in-out'; // 添加过渡效果
+
         // 延迟设置 iframe src，给加载指示器一个显示的机会
         setTimeout(() => {
             embeddedDemoIframe.src = demoPath; // 设置 iframe 的 src，开始加载 Demo
+            console.log(`尝试加载 Demo: ${demoPath}`); // 调试日志
 
             // 监听 iframe 加载完成事件
             embeddedDemoIframe.onload = () => {
+                console.log(`Demo 加载成功: ${demoPath}`); // 调试日志
                 embeddedLoadingIndicator.classList.add('hidden'); // 隐藏加载指示器
+                embeddedDemoIframe.style.opacity = '1'; // 显示iframe内容
             };
             // 监听 iframe 加载错误事件
             embeddedDemoIframe.onerror = () => {
-                embeddedLoadingIndicator.textContent = 'Demo 加载失败。请检查路径或稍后再试。';
-                console.error('Failed to load demo from:', demoPath);
+                console.error('Demo 加载失败，来源:', demoPath); // 调试日志
+                embeddedLoadingIndicator.textContent = 'Demo 加载失败。请检查路径或稍后再试。'; // 更新提示文本
             };
         }, 100); // 短暂延迟，让加载指示器可见
 
@@ -102,6 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.querySelector('.embedded-demo-iframe').src = ''; // 清空其他 iframe
                 container.querySelector('.embedded-loading-indicator').classList.add('hidden'); // 隐藏加载指示器
                 container.querySelector('.embedded-demo-title').textContent = '项目 Demo 演示'; // 恢复默认标题
+                 // 确保其他iframe也重置透明度
+                const otherIframe = container.querySelector('.embedded-demo-iframe');
+                if (otherIframe) otherIframe.style.opacity = '0';
             }
         });
 
@@ -119,7 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const embeddedDemoTitle = embeddedDemoContainer.querySelector('.embedded-demo-title');
 
             embeddedDemoContainer.classList.add('hidden'); // 隐藏嵌入式 Demo 容器
-            if (embeddedDemoIframe) embeddedDemoIframe.src = ''; // 清空 iframe 的 src，停止 Demo 运行并释放资源
+            if (embeddedDemoIframe) {
+                embeddedDemoIframe.src = ''; // 清空 iframe 的 src，停止 Demo 运行并释放资源
+                embeddedDemoIframe.style.opacity = '0'; // 确保隐藏
+            }
             if (embeddedLoadingIndicator) embeddedLoadingIndicator.classList.add('hidden'); // 隐藏加载指示器
             if (embeddedDemoTitle) embeddedDemoTitle.textContent = '项目 Demo 演示'; // 恢复默认标题
         });
@@ -134,11 +148,14 @@ async function loadMarkdownResume() {
     const container = document.getElementById('resume-container');
     if (!container) return;
 
+    // 确保 marked.js 库已加载，如果没有，可以考虑动态加载
+    // 或者在 HTML 中确保 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 在此脚本之前
     if (typeof marked === 'undefined') {
-        container.innerHTML = '<p>Error loading resume content.</p>';
+        container.innerHTML = '<p data-lang-cn="错误：Markdown 渲染库未加载。" data-lang-en="Error: Markdown rendering library not loaded."></p>';
+        updateElementLanguage(container.querySelector('p'));
         return;
     }
-    
+
     try {
         const response = await fetch('resume_of_quantitative_investment_and_ai_product_specialist.md');
         if (!response.ok) {
@@ -161,7 +178,12 @@ function updateElementLanguage(el) {
     const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'cn';
     const text = el.getAttribute(`data-lang-${lang}`);
     if (text) {
-        el.innerText = text;
+        // 对于标题标签，需要直接设置 document.title
+        if (el.tagName === 'TITLE') {
+            document.title = text;
+        } else {
+            el.innerText = text; // 对于普通元素使用 innerText
+        }
     }
 }
 
@@ -173,16 +195,13 @@ function initLanguageSwitcher() {
         document.documentElement.lang = lang === 'cn' ? 'zh-CN' : 'en';
         document.documentElement.classList.toggle('lang-cn', lang === 'cn');
         document.documentElement.classList.toggle('lang-en', lang === 'en');
-        
+
         const elements = document.querySelectorAll('[data-lang-cn], [data-lang-en]');
         elements.forEach(el => {
             const text = el.getAttribute(`data-lang-${lang}`);
             if (text) {
-                if (el.tagName === 'TITLE') {
-                    document.title = text;
-                } else {
-                    el.innerText = text;
-                }
+                // 统一调用 updateElementLanguage 处理标题和其他元素
+                updateElementLanguage(el);
             }
         });
 
@@ -196,10 +215,11 @@ function initLanguageSwitcher() {
             if(span) span.style.transform = 'translateX(0)';
         }
 
-        const event = new CustomEvent('languageChange', { detail: { lang } });
+        // 触发自定义事件，通知其他脚本语言已改变
+        const event = new CustomEvent('languageChanged', { detail: { lang } }); // 注意这里改成了 languageChanged 以匹配 project-docs-script.js
         document.dispatchEvent(event);
     };
-    
+
     switcher.addEventListener('click', () => {
         const currentLangIsEn = switcher.getAttribute('aria-checked') === 'true';
         const newLang = currentLangIsEn ? 'cn' : 'en';
@@ -245,7 +265,7 @@ function updateFooterYear() {
 
 function updateActiveNav() {
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-    
+
     document.querySelectorAll('header nav a.nav-link').forEach(link => {
         const linkPath = link.getAttribute('href').split('/').pop();
         if (linkPath === currentPath) {
