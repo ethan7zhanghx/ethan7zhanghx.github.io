@@ -1,4 +1,6 @@
 import { initCalendar, isCalendarPage } from './calendar.js';
+// 假设 marked.js 也是通过 script 标签全局引入，如果不是，需要在这里 import
+// import { marked } from 'marked'; // 如果 marked.js 是模块化的
 
 document.addEventListener('DOMContentLoaded', () => {
     // 确保 lucide 图标在 DOM 加载后创建
@@ -31,26 +33,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     allDemoButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-            event.preventDefault(); // 阻止链接默认跳转行为
-            console.log("阻止默认行为已执行！"); // 添加调试日志
+            // event.preventDefault(); // 先阻止默认行为，根据设备判断是否需要继续
 
-            // *** 核心修复：根据您最新的 HTML，直接从 href 获取路径 ***
-            const realDemoPath = button.getAttribute('href'); // 如果 href 就是实际路径，就用这个
+            // 获取 Demo 路径，优先使用 data-demo-src (用于 PC 嵌入)，如果不存在，则使用 href (作为备用和移动端跳转)
+            const demoPathForEmbedded = button.getAttribute('data-demo-src');
+            const demoPathForNewPage = button.getAttribute('href'); // 移动端将直接使用这个
 
+            // 获取项目标题
             const projectTitleElement = button.closest('.w-full.md\\:w-2\\/3')?.querySelector('h3');
             const projectTitle = projectTitleElement ? projectTitleElement.textContent : 'Demo 演示';
 
-            if (!realDemoPath) {
-                console.error('未找到 Demo 路径。请检查按钮的 href 属性。');
+            if (!demoPathForEmbedded && !demoPathForNewPage) {
+                console.error('未找到 Demo 路径。请检查按钮的 href 或 data-demo-src 属性。');
                 alert('Demo 路径配置错误，无法加载。');
                 return;
             }
 
             if (isMobileDevice()) {
-                console.log(`移动设备检测到，在新页面打开 Demo: ${realDemoPath}`);
-                window.open(realDemoPath, '_blank');
+                // 如果是移动设备，直接在新页面打开 href
+                if (demoPathForNewPage) {
+                    console.log(`移动设备检测到，在新页面打开 Demo: ${demoPathForNewPage}`);
+                    window.open(demoPathForNewPage, '_blank');
+                    // 阻止默认行为只在移动端执行，因为 PC 端需要 JS 控制
+                    event.preventDefault();
+                } else {
+                    console.error('移动设备模式下，未找到 href 属性作为新页面打开的路径。');
+                    alert('Demo 路径配置错误，无法加载。');
+                }
             } else {
-                openEmbeddedDemo(button, realDemoPath, projectTitle);
+                // 如果是非移动设备，阻止默认行为并打开嵌入式 Demo
+                event.preventDefault(); // 阻止链接默认跳转行为
+                console.log("PC 端：阻止默认行为已执行！"); // 添加调试日志
+                openEmbeddedDemo(button, demoPathForEmbedded || demoPathForNewPage, projectTitle); // 优先使用 data-demo-src，如果不存在则用 href
             }
         });
     });
@@ -73,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // 关闭其他已经打开的 Demo 容器
         document.querySelectorAll('.embedded-demo-container').forEach(container => {
             if (container !== embeddedDemoContainer) {
                 container.classList.add('hidden');
@@ -84,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const otherLoadingIndicator = container.querySelector('.embedded-loading-indicator');
                 if (otherLoadingIndicator) otherLoadingIndicator.classList.add('hidden');
                 const otherTitle = container.querySelector('.embedded-demo-title');
-                if (otherTitle) otherTitle.textContent = '项目 Demo 演示';
+                if (otherTitle) updateElementLanguage(otherTitle); // 恢复到默认语言的标题
             }
         });
 
@@ -94,13 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
             embeddedDemoIframe.src = '';
             embeddedDemoIframe.style.opacity = '0';
             embeddedLoadingIndicator.classList.add('hidden');
-            embeddedDemoTitle.textContent = '项目 Demo 演示';
+            updateElementLanguage(embeddedDemoTitle); // 恢复到默认语言的标题
             return;
         }
 
+        // 显示当前 Demo 容器并加载 iframe
         embeddedDemoTitle.textContent = title;
         embeddedLoadingIndicator.classList.remove('hidden');
-        embeddedDemoIframe.src = '';
+        embeddedDemoIframe.src = ''; // 清空 src 确保重新加载
 
         embeddedDemoIframe.style.opacity = '0';
         embeddedDemoIframe.style.transition = 'opacity 0.3s ease-in-out';
@@ -116,10 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             embeddedDemoIframe.onerror = () => {
                 console.error('Demo 加载失败 (iframe.onerror)，来源:', demoPath);
-                embeddedLoadingIndicator.textContent = 'Demo 加载失败。请检查路径或稍后再试。';
+                embeddedLoadingIndicator.textContent = (document.documentElement.lang.startsWith('en') ? 'Demo loading failed. Please check the path or try again later.' : 'Demo 加载失败。请检查路径或稍后再试。');
                 embeddedDemoIframe.style.opacity = '0';
             };
-        }, 100);
+        }, 100); // 稍作延迟以确保 DOM 更新
 
         embeddedDemoContainer.classList.remove('hidden');
         embeddedDemoContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -136,15 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             embeddedDemoContainer.classList.add('hidden');
             if (embeddedDemoIframe) {
-                embeddedDemoIframe.src = '';
+                embeddedDemoIframe.src = ''; // 停止 iframe 内容
                 embeddedDemoIframe.style.opacity = '0';
             }
             if (embeddedLoadingIndicator) {
                 embeddedLoadingIndicator.classList.add('hidden');
-                const originalLoadingText = embeddedLoadingIndicator.getAttribute('data-lang-cn') || 'Demo 加载中...';
-                embeddedLoadingIndicator.textContent = originalLoadingText;
+                updateElementLanguage(embeddedLoadingIndicator); // 恢复到默认语言的加载文本
             }
-            if (embeddedDemoTitle) embeddedDemoTitle.textContent = '项目 Demo 演示';
+            if (embeddedDemoTitle) updateElementLanguage(embeddedDemoTitle); // 恢复到默认语言的标题
         });
     });
 
@@ -156,6 +171,7 @@ async function loadMarkdownResume() {
     const container = document.getElementById('resume-container');
     if (!container) return;
 
+    // 检查 marked 是否已加载
     if (typeof marked === 'undefined') {
         container.innerHTML = '<p data-lang-cn="错误：Markdown 渲染库未加载。" data-lang-en="Error: Markdown rendering library not loaded."></p>';
         updateElementLanguage(container.querySelector('p'));
