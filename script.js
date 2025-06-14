@@ -22,47 +22,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 辅助函数：判断是否为移动设备 ---
     function isMobileDevice() {
-        // 简单判断，可以根据需要增加更复杂的规则
-        // 注意：在某些大尺寸平板上，innerWidth 可能超过 768px，但仍视为移动设备。
-        // 为了确保 Demo 在移动端始终在新窗口打开，可以更依赖 userAgent。
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
     // --- 嵌入式 Demo 区域逻辑 ---
 
-    // 为所有 "体验Demo" 按钮添加事件监听器
     const allDemoButtons = document.querySelectorAll('.open-embedded-demo-btn');
 
     allDemoButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-            event.preventDefault(); // 阻止链接默认跳转行为，这很重要！
+            event.preventDefault(); // 阻止链接默认跳转行为
+            console.log("阻止默认行为已执行！"); // 添加调试日志
 
-            // *** 核心修复：从 data-demo-src 获取实际的 Demo 路径 ***
-            const realDemoPath = button.dataset.demoSrc; // 正确获取 Demo 路径
+            // *** 核心修复：根据您最新的 HTML，直接从 href 获取路径 ***
+            const realDemoPath = button.getAttribute('href'); // 如果 href 就是实际路径，就用这个
 
-            // 获取项目标题
             const projectTitleElement = button.closest('.w-full.md\\:w-2\\/3')?.querySelector('h3');
             const projectTitle = projectTitleElement ? projectTitleElement.textContent : 'Demo 演示';
 
-            // 检查 realDemoPath 是否存在，以避免尝试加载空路径
             if (!realDemoPath) {
-                console.error('未找到 Demo 路径。请检查按钮的 data-demo-src 属性。');
+                console.error('未找到 Demo 路径。请检查按钮的 href 属性。');
                 alert('Demo 路径配置错误，无法加载。');
                 return;
             }
 
             if (isMobileDevice()) {
-                // 如果是移动设备，直接在新页面打开 Demo
                 console.log(`移动设备检测到，在新页面打开 Demo: ${realDemoPath}`);
                 window.open(realDemoPath, '_blank');
             } else {
-                // 如果是桌面设备，使用嵌入式显示
                 openEmbeddedDemo(button, realDemoPath, projectTitle);
             }
         });
     });
 
-    // 通用函数：打开嵌入式 Demo 区域 (仅用于桌面端)
     function openEmbeddedDemo(triggerButton, demoPath, title) {
         const projectItem = triggerButton.closest('.project-item');
         if (!projectItem) {
@@ -81,65 +73,58 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 隐藏所有其他项目的 Demo 容器，确保每次只有一个 Demo 显示
         document.querySelectorAll('.embedded-demo-container').forEach(container => {
             if (container !== embeddedDemoContainer) {
                 container.classList.add('hidden');
                 const otherIframe = container.querySelector('.embedded-demo-iframe');
                 if (otherIframe) {
-                    otherIframe.src = ''; // 清空其他 iframe 的 src
-                    otherIframe.style.opacity = '0'; // 确保其他 iframe 隐藏
+                    otherIframe.src = '';
+                    otherIframe.style.opacity = '0';
                 }
                 const otherLoadingIndicator = container.querySelector('.embedded-loading-indicator');
                 if (otherLoadingIndicator) otherLoadingIndicator.classList.add('hidden');
                 const otherTitle = container.querySelector('.embedded-demo-title');
-                if (otherTitle) otherTitle.textContent = '项目 Demo 演示'; // 恢复默认标题
+                if (otherTitle) otherTitle.textContent = '项目 Demo 演示';
             }
         });
 
         // 如果当前 Demo 容器已经显示，则再次点击时关闭它
         if (!embeddedDemoContainer.classList.contains('hidden')) {
             embeddedDemoContainer.classList.add('hidden');
-            embeddedDemoIframe.src = ''; // 清空 iframe 的 src
-            embeddedDemoIframe.style.opacity = '0'; // 隐藏 iframe 内容
-            embeddedLoadingIndicator.classList.add('hidden'); // 隐藏加载指示器
-            embeddedDemoTitle.textContent = '项目 Demo 演示'; // 恢复默认标题
-            return; // 结束函数执行
+            embeddedDemoIframe.src = '';
+            embeddedDemoIframe.style.opacity = '0';
+            embeddedLoadingIndicator.classList.add('hidden');
+            embeddedDemoTitle.textContent = '项目 Demo 演示';
+            return;
         }
 
-        // 准备显示当前 Demo
         embeddedDemoTitle.textContent = title;
-        embeddedLoadingIndicator.classList.remove('hidden'); // 显示加载指示器
-        embeddedDemoIframe.src = ''; // 先清空 iframe 的 src，防止旧内容残留
+        embeddedLoadingIndicator.classList.remove('hidden');
+        embeddedDemoIframe.src = '';
 
-        // 优化：加载前让 iframe 透明，防止空白闪烁
         embeddedDemoIframe.style.opacity = '0';
-        embeddedDemoIframe.style.transition = 'opacity 0.3s ease-in-out'; // 添加过渡效果
+        embeddedDemoIframe.style.transition = 'opacity 0.3s ease-in-out';
 
-        // 延迟设置 iframe src，给加载指示器一个显示的机会
         setTimeout(() => {
-            embeddedDemoIframe.src = demoPath; // 设置 iframe 的 src，开始加载 Demo
-            console.log(`尝试在 iframe 中加载 Demo: ${demoPath}`); // 调试日志
+            embeddedDemoIframe.src = demoPath;
+            console.log(`尝试在 iframe 中加载 Demo: ${demoPath}`);
 
-            // 监听 iframe 加载完成事件
             embeddedDemoIframe.onload = () => {
-                console.log(`Demo 加载成功 (iframe.onload): ${demoPath}`); // 调试日志
-                embeddedLoadingIndicator.classList.add('hidden'); // 隐藏加载指示器
-                embeddedDemoIframe.style.opacity = '1'; // 显示iframe内容
+                console.log(`Demo 加载成功 (iframe.onload): ${demoPath}`);
+                embeddedLoadingIndicator.classList.add('hidden');
+                embeddedDemoIframe.style.opacity = '1';
             };
-            // 监听 iframe 加载错误事件
             embeddedDemoIframe.onerror = () => {
-                console.error('Demo 加载失败 (iframe.onerror)，来源:', demoPath); // 调试日志
-                embeddedLoadingIndicator.textContent = 'Demo 加载失败。请检查路径或稍后再试。'; // 更新提示文本
-                embeddedDemoIframe.style.opacity = '0'; // 确保 iframe 不显示错误页面
+                console.error('Demo 加载失败 (iframe.onerror)，来源:', demoPath);
+                embeddedLoadingIndicator.textContent = 'Demo 加载失败。请检查路径或稍后再试。';
+                embeddedDemoIframe.style.opacity = '0';
             };
-        }, 100); // 短暂延迟，让加载指示器可见
+        }, 100);
 
-        embeddedDemoContainer.classList.remove('hidden'); // 显示当前点击的嵌入式 Demo 容器
-        embeddedDemoContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }); // 滚动到 Demo 区域
+        embeddedDemoContainer.classList.remove('hidden');
+        embeddedDemoContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // 为所有嵌入式 Demo 的关闭按钮添加事件监听器
     document.querySelectorAll('.close-embedded-demo-btn').forEach(button => {
         button.addEventListener('click', () => {
             const embeddedDemoContainer = button.closest('.embedded-demo-container');
@@ -149,23 +134,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const embeddedLoadingIndicator = embeddedDemoContainer.querySelector('.embedded-loading-indicator');
             const embeddedDemoTitle = embeddedDemoContainer.querySelector('.embedded-demo-title');
 
-            embeddedDemoContainer.classList.add('hidden'); // 隐藏嵌入式 Demo 容器
+            embeddedDemoContainer.classList.add('hidden');
             if (embeddedDemoIframe) {
-                embeddedDemoIframe.src = ''; // 清空 iframe 的 src，停止 Demo 运行并释放资源
-                embeddedDemoIframe.style.opacity = '0'; // 确保 iframe 内容隐藏
+                embeddedDemoIframe.src = '';
+                embeddedDemoIframe.style.opacity = '0';
             }
             if (embeddedLoadingIndicator) {
-                embeddedLoadingIndicator.classList.add('hidden'); // 隐藏加载指示器
-                // 重置加载指示器文本，以便下次正确显示“Demo 加载中...”
+                embeddedLoadingIndicator.classList.add('hidden');
                 const originalLoadingText = embeddedLoadingIndicator.getAttribute('data-lang-cn') || 'Demo 加载中...';
                 embeddedLoadingIndicator.textContent = originalLoadingText;
             }
-            if (embeddedDemoTitle) embeddedDemoTitle.textContent = '项目 Demo 演示'; // 恢复默认标题
+            if (embeddedDemoTitle) embeddedDemoTitle.textContent = '项目 Demo 演示';
         });
     });
 
 });
-
 
 // --- 其他函数定义 (保持不变) ---
 
@@ -201,11 +184,10 @@ function updateElementLanguage(el) {
     const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'cn';
     const text = el.getAttribute(`data-lang-${lang}`);
     if (text) {
-        // 对于标题标签，需要直接设置 document.title
         if (el.tagName === 'TITLE') {
             document.title = text;
         } else {
-            el.innerText = text; // 对于普通元素使用 innerText
+            el.innerText = text;
         }
     }
 }
