@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang-cn="作品集 | 张昊鑫" data-lang-en="Portfolio | Zhang Haoxin">作品集 | 张昊鑫</title>
+    <title>作品集 | 张昊鑫</title>
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,9 +17,9 @@
           <a href="index.html" class="font-bold text-xl text-gray-900 tracking-wide">张昊鑫</a>
 
           <div class="hidden md:flex flex-1 justify-center items-center space-x-8">
-            <a href="info.html" class="nav-link" data-lang-cn="个人信息" data-lang-en="About Me">个人信息</a>
-            <a href="portfolio.html" class="nav-link" data-lang-cn="项目Demo" data-lang-en="Portfolio">项目Demo</a>
-            <a href="contact.html" class="nav-link" data-lang-cn="联系我" data-lang-en="Contact">联系我</a>
+            <a href="info.html" class="nav-link">个人信息</a>
+            <a href="portfolio.html" class="nav-link">项目Demo</a>
+            <a href="contact.html" class="nav-link">联系我</a>
           </div>
 
           <div class="flex items-center space-x-4">
@@ -27,9 +27,7 @@
                 download
                 target="_blank"
                 class="hidden md:inline-block px-4 py-2 text-sm font-semibold text-blue-600 bg-white rounded-lg border border-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 transition-all duration-300"
-                data-lang-cn="下载简历" data-lang-en="Download Resume">
-              下载简历
-            </a>
+                >下载简历</a>
             <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100">
               <i data-lucide="menu" class="h-6 w-6"></i>
             </button>
@@ -37,35 +35,33 @@
         </nav>
 
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 flex flex-col items-center space-y-4 border-t border-gray-200">
-          <a href="info.html" class="nav-link" data-lang-cn="个人信息" data-lang-en="About Me">个人信息</a>
-          <a href="portfolio.html" class="nav-link" data-lang-cn="项目Demo" data-lang-en="Portfolio">项目Demo</a>
-          <a href="contact.html" class="nav-link" data-lang-cn="联系我" data-lang-en="Contact">联系我</a>
+          <a href="info.html" class="nav-link">个人信息</a>
+          <a href="portfolio.html" class="nav-link">项目Demo</a>
+          <a href="contact.html" class="nav-link">联系我</a>
         </div>
-      </header>
-
+    </header>
 
     <main class="pt-24 md:pt-32 pb-16">
         <section id="portfolio-full" class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h1 class="section-title" data-lang-cn="作品集" data-lang-en="Portfolio">作品集</h1>
-                <p class="section-subtitle" data-lang-cn="我的项目经验" data-lang-en="My Project Experience">我的项目经验</p>
+                <h1 class="section-title">作品集</h1>
             </div>
             <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-lg shadow-md border border-gray-200/80">
                 <div class="space-y-12">
                     <div class="project-item">
                         <div class="flex flex-col md:flex-row items-start gap-8">
-                            <div class="w-full md:w-1/3">
+                            <div class="w-full md:w-2/3">
                                  <div class="aspect-video bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 border">
-                                     <i data-lucide="film" class="w-16 h-16"></i>
+                                     <img src="Img/img1.png" alt="AI互动网剧制作工具示意图" class="w-full h-auto rounded-lg">
                                  </div>
                             </div>
-                            <div class="w-full md:w-2/3 text-left">
-                                <h3 class="text-2xl font-bold text-gray-900" data-lang-cn="互动短剧制作平台" data-lang-en="Interactive Drama Production Platform">互动短剧制作平台</h3>
-                                <p class="mt-3 text-gray-600 leading-relaxed" data-lang-cn="一个创新的AIGC工具，它允许创作者通过可视化的逻辑画布和交互式时间轴，来轻松构建、编辑并预览非线性的互动短剧体验。此Demo在前端完整模拟了所有核心交互功能，以展示产品的核心用户流程。" data-lang-en="An innovative AIGC tool allowing creators to easily build, edit, and preview non-linear interactive short dramas using a visual logic canvas and interactive timeline. This demo fully simulates all core interactive features on the frontend to showcase the product's core user flow.">一个创新的AIGC工具，它允许创作者通过可视化的逻辑画布和交互式时间轴，来轻松构建、编辑并预览非线性的互动短剧体验。此Demo在前端完整模拟了所有核心交互功能，以展示产品的核心用户流程。</p>
+                            <div class="w-full md:w-1/3 text-left">
+                                <h3 class="text-2xl font-bold text-gray-900">AI互动网剧制作工具</h3>
+                                <p class="mt-3 text-gray-600 leading-relaxed">将网剧和交互式剧情游戏的结合，通过AI视频生成技术，让用户低成本创建拥有多分支剧情的沉浸式网剧。用户可根据自己的选择推动剧情走向，提升互动性与粘性，创造个性化的观影体验，解决传统制作的高成本问题。</p>
                                 <div class="mt-6">
                                     <a href="./Project1/index.html" target="_blank"
                                        class="inline-flex items-center px-6 py-2.5 text-base font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 shadow hover:shadow-md transform hover:-translate-y-0.5">
-                                        <span data-lang-cn="体验Demo" data-lang-en="Experience Demo">体验Demo</span>
+                                        <span>体验Demo</span>
                                         <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
                                     </a>
                                 </div>
@@ -77,18 +73,18 @@
 
                     <div class="project-item">
                         <div class="flex flex-col md:flex-row items-start gap-8">
-                            <div class="w-full md:w-1/3">
+                            <div class="w-full md:w-2/3">
                                  <div class="aspect-video bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 border">
-                                     <i data-lucide="film" class="w-16 h-16"></i>
+                                     <img src="Img/img2.png" alt="AI剧本辅助工具示意图" class="w-full h-auto rounded-lg">
                                  </div>
                             </div>
-                            <div class="w-full md:w-2/3 text-left">
-                                <h3 class="text-2xl font-bold text-gray-900" data-lang-cn="项目名称占位符 2" data-lang-en="Project Name Placeholder 2">项目名称占位符 2</h3>
-                                <p class="mt-3 text-gray-600 leading-relaxed" data-lang-cn="这里是项目2的简要描述。您可以稍后在这里填入具体的项目细节和亮点，让访问者了解您的项目。" data-lang-en="This is a brief description of Project 2. You can fill in specific project details and highlights here later to let visitors understand your project.">这里是项目2的简要描述。您可以稍后在这里填入具体的项目细节和亮点，让访问者了解您的项目。</p>
+                            <div class="w-full md:w-1/3 text-left">
+                                <h3 class="text-2xl font-bold text-gray-900">AI剧本辅助工具</h3>
+                                <p class="mt-3 text-gray-600 leading-relaxed">用于剧本写作场景的AI辅助工具，提供对白优化、节奏分析、情节逻辑梳理、角色一致性检测和场景细化建议等功能，目标是提高剧本创作的效率和结构完整性，辅助创作者发现并修正潜在问题。</p>
                                 <div class="mt-6">
                                     <a href="./Project2/index.html" target="_blank"
                                        class="inline-flex items-center px-6 py-2.5 text-base font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 shadow hover:shadow-md transform hover:-translate-y-0.5">
-                                        <span data-lang-cn="体验Demo" data-lang-en="Experience Demo">体验Demo</span>
+                                        <span>体验Demo</span>
                                         <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
                                     </a>
                                 </div>
@@ -100,18 +96,18 @@
 
                     <div class="project-item">
                         <div class="flex flex-col md:flex-row items-start gap-8">
-                            <div class="w-full md:w-1/3">
+                            <div class="w-full md:w-2/3">
                                  <div class="aspect-video bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 border">
-                                     <i data-lucide="film" class="w-16 h-16"></i>
+                                     <img src="Img/img3.png" alt="FocusAI 智能任务助手示意图" class="w-full h-auto rounded-lg">
                                  </div>
                             </div>
-                            <div class="w-full md:w-2/3 text-left">
-                                <h3 class="text-2xl font-bold text-gray-900" data-lang-cn="项目名称占位符 3" data-lang-en="Project Name Placeholder 3">项目名称占位符 3</h3>
-                                <p class="mt-3 text-gray-600 leading-relaxed" data-lang-cn="这里是项目3的简要描述。您可以稍后在这里填入具体的项目细节和亮点，让访问者了解您的项目。" data-lang-en="This is a brief description of Project 3. You can fill in specific project details and highlights here later to let visitors understand your project.">这里是项目3的简要描述。您可以稍后在这里填入具体的项目细节和亮点，让访问者了解您的项目。</p>
+                            <div class="w-full md:w-1/3 text-left">
+                                <h3 class="text-2xl font-bold text-gray-900">FocusAI 智能任务助手</h3>
+                                <p class="mt-3 text-gray-600 leading-relaxed">通过AI智能分析优化工作效率的任务管理工具。它根据任务的优先级、认知负荷及用户历史数据，提供精准的专注时段安排、番茄钟时长建议、环境调整及休息活动推荐，帮助用户高效规划每个工作环节，提升工作效率与专注力，确保每个任务在最佳条件下完成。</p>
                                 <div class="mt-6">
                                     <a href="./Project3/index.html" target="_blank"
                                        class="inline-flex items-center px-6 py-2.5 text-base font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 shadow hover:shadow-md transform hover:-translate-y-0.5">
-                                        <span data-lang-cn="体验Demo" data-lang-en="Experience Demo">体验Demo</span>
+                                        <span>体验Demo</span>
                                         <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
                                     </a>
                                 </div>
@@ -123,18 +119,18 @@
 
                     <div class="project-item">
                         <div class="flex flex-col md:flex-row items-start gap-8">
-                            <div class="w-full md:w-1/3">
+                            <div class="w-full md:w-2/3">
                                  <div class="aspect-video bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 border">
-                                     <i data-lucide="film" class="w-16 h-16"></i>
+                                     <img src="Img/img4.png" alt="AI小说转漫画示意图" class="w-full h-auto rounded-lg">
                                  </div>
                             </div>
-                            <div class="w-full md:w-2/3 text-left">
-                                <h3 class="text-2xl font-bold text-gray-900" data-lang-cn="项目名称占位符 4" data-lang-en="Project Name Placeholder 4">项目名称占位符 4</h3>
-                                <p class="mt-3 text-gray-600 leading-relaxed" data-lang-cn="这里是项目4的简要描述。您可以稍后在这里填入具体的项目细节和亮点，让访问者了解您的项目。" data-lang-en="This is a brief description of Project 4. You can fill in specific project details and highlights here later to let visitors understand your project.">这里是项目4的简要描述。您可以稍后在这里填入具体的项目细节和亮点，让访问者了解您的项目。</p>
+                            <div class="w-full md:w-1/3 text-left">
+                                <h3 class="text-2xl font-bold text-gray-900">AI小说转漫画</h3>
+                                <p class="mt-3 text-gray-600 leading-relaxed">用AI技术，帮助作家将小说内容快速转化为漫画。通过智能场景生成、角色管理和艺术风格选择，创作者可以轻松实现从文字到视觉的转换，省时省力，提升创作效率。无论是个人创作还是小型工作室，都可以借助该平台高效完成漫画制作。</p>
                                 <div class="mt-6">
                                     <a href="./Project4/index.html" target="_blank"
                                        class="inline-flex items-center px-6 py-2.5 text-base font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 shadow hover:shadow-md transform hover:-translate-y-0.5">
-                                        <span data-lang-cn="体验Demo" data-lang-en="Experience Demo">体验Demo</span>
+                                        <span>体验Demo</span>
                                         <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
                                     </a>
                                 </div>
@@ -146,18 +142,18 @@
 
                     <div class="project-item">
                         <div class="flex flex-col md:flex-row items-start gap-8">
-                            <div class="w-full md:w-1/3">
+                            <div class="w-full md:w-2/3">
                                  <div class="aspect-video bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 border">
-                                     <i data-lucide="film" class="w-16 h-16"></i>
+                                     <img src="Img/img5.png" alt="AI塔罗牌占卜示意图" class="w-full h-auto rounded-lg">
                                  </div>
                             </div>
-                            <div class="w-full md:w-2/3 text-left">
-                                <h3 class="text-2xl font-bold text-gray-900" data-lang-cn="项目名称占位符 5" data-lang-en="Project Name Placeholder 5">项目名称占位符 5</h3>
-                                <p class="mt-3 text-gray-600 leading-relaxed" data-lang-cn="这里是项目5的简要描述。您可以稍后在这里填入具体的项目细节和亮点，让访问者了解您的项目。" data-lang-en="This is a brief description of Project 5. You can fill in specific project details and highlights here later to let visitors understand your project.">这里是项目5的简要描述。您可以稍后在这里填入具体的项目细节和亮点，让访问者了解您的项目。</p>
+                            <div class="w-full md:w-1/3 text-left">
+                                <h3 class="text-2xl font-bold text-gray-900">AI塔罗牌占卜</h3>
+                                <p class="mt-3 text-gray-600 leading-relaxed">通过AI模拟传统塔罗牌占卜，提供精准的个人咨询与预测服务。用户只需输入问题，AI即能根据塔罗牌的布局和寓意，分析并给出个性化的答案和建议。</p>
                                 <div class="mt-6">
                                     <a href="./Project5/index.html" target="_blank"
                                        class="inline-flex items-center px-6 py-2.5 text-base font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 shadow hover:shadow-md transform hover:-translate-y-0.5">
-                                        <span data-lang-cn="体验Demo" data-lang-en="Experience Demo">体验Demo</span>
+                                        <span>体验Demo</span>
                                         <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
                                     </a>
                                 </div>
@@ -168,8 +164,8 @@
                     <div class="border-t border-gray-200/80 pt-12">
                            <div class="flex flex-col items-center text-center text-gray-500">
                              <i data-lucide="layers" class="w-12 h-12 text-gray-400 mb-4"></i>
-                             <h3 class="text-xl font-semibold" data-lang-cn="更多项目敬请期待" data-lang-en="More Projects Coming Soon">更多项目敬请期待</h3>
-                             <p class="mt-2" data-lang-cn="正在整理更多AIGC应用项目..." data-lang-en="More AIGC application projects are being organized...">正在整理更多AIGC应用项目...</p>
+                             <h3 class="text-xl font-semibold">更多项目敬请期待</h3>
+                             <p class="mt-2">正在整理更多AIGC应用项目...</p>
                            </div>
                     </div>
                 </div>
@@ -179,7 +175,7 @@
 
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center">
-            <p>&copy; <span id="footer-year">2025</span> <span data-lang-cn="张昊鑫" data-lang-en="Zhang Haoxin">张昊鑫</span>. <span data-lang-cn="版权所有" data-lang-en="All rights reserved">版权所有</span>.</p>
+            <p>&copy; <span id="footer-year">2025</span> 张昊鑫. 版权所有</p>
         </div>
     </footer>
 
